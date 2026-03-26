@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Brøker & Decimaler 🌟</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+  background: linear-gradient(160deg, #c9d6ff 0%, #e2e2e2 40%, #fbc2eb 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 16px 40px;
+}
+.container { max-width: 580px; width: 100%; }
+
+h1 {
+  text-align: center;
+  font-size: 2.1rem;
+  color: #5b2d8e;
+  margin-bottom: 4px;
+  text-shadow: 2px 2px 0 rgba(255,255,255,0.7);
+}
+.subtitle { text-align: center; font-size: 1rem; color: #888; margin-bottom: 12px; }
+
+/* ── Tab navigation ── */
+.tab-nav {
+  display: flex;
+  gap: 0;
+  margin-bottom: 18px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 16px;
+  padding: 4px;
+}
+.tab-nav-btn {
+  flex: 1;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.tab-nav-btn.active { background: white; color: #5b2d8e; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
+.tab-nav-btn:not(.active):hover { background: rgba(255,255,255,0.5); color: #5b2d8e; }
+
+/* ── Level selector ── */
+.level-selector {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.level-btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.35);
+  color: #444;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.level-btn:hover { background: rgba(255,255,255,0.6); }
+.level-btn.active { background: white; color: #5b2d8e; box-shadow: 0 3px 12px rgba(0,0,0,0.15); }
+
+/* ── Op selector (arithmetic) ── */
+.op-selector {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.op-btn {
+  padding: 7px 15px;
+  border-radius: 20px;
+  border: 2px solid rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.35);
+  color: #444;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.op-btn:hover { background: rgba(255,255,255,0.6); }
+.op-btn.active { background: white; color: #5b2d8e; box-shadow: 0 3px 12px rgba(0,0,0,0.15); }
+
+/* ── Progress ── */
+.progress-container {
+  background: rgba(255,255,255,0.4);
+  border-radius: 10px;
+  height: 10px;
+  margin-bottom: 14px;
+  overflow: hidden;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #a18cd1, #e91e8c);
+  border-radius: 10px;
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ── HUD ── */
+.hud {
+  background: white;
+  border-radius: 18px;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.hud-score { font-size: 1.2rem; color: #5b2d8e; font-weight: 700; }
+.hud-lives { font-size: 1.4rem; }
+.hud-streak { font-size: 0.95rem; color: #e67e22; font-weight: 700; min-width: 60px; text-align: right; }
+
+/* ── Feedback ── */
+.feedback {
+  min-height: 52px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+  text-align: center;
+  transition: all 0.3s;
+  line-height: 1.5;
+  gap: 4px;
+}
+.feedback.correct { background: #d5f4e6; color: #1a6b3c; border: 2px solid #a3e4c1; }
+.feedback.wrong   { background: #fde8e8; color: #b03030; border: 2px solid #f5b8b8; }
+.step-hint { font-size: 0.85rem; opacity: 0.85; font-style: italic; font-weight: 500; margin-top: 2px; }
+
+/* ── Card ── */
+.card {
+  background: white;
+  border-radius: 24px;
+  padding: 26px 24px 20px;
+  text-align: center;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.11);
+  margin-bottom: 14px;
+}
+.badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+  color: white;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.question-text { font-size: 1.2rem; color: #333; margin-bottom: 14px; line-height: 1.5; }
+
+/* Fraction symbol */
+.fraction-render {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #5b2d8e;
+  line-height: 1;
+  margin: 8px 0;
+}
+.fraction-render .fn { border-bottom: 4px solid #5b2d8e; padding-bottom: 5px; margin-bottom: 5px; }
+.big-decimal { font-size: 3.2rem; font-weight: 800; color: #5b2d8e; margin: 12px 0; }
+
+/* ── Answers ── */
+.answers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+  margin-top: 18px;
+}
+.answer-btn {
+  padding: 16px 10px;
+  font-size: 1.35rem;
+  font-family: inherit;
+  border: 3px solid #e0d0f0;
+  border-radius: 14px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 700;
+  color: #444;
+  line-height: 1.4;
+  min-height: 68px;
+}
+.answer-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #a18cd1, #e68fe8);
+  color: white;
+  border-color: #a18cd1;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(161,140,209,0.45);
+}
+.answer-btn.correct {
+  background: linear-gradient(135deg, #43b06f, #7ed9a3);
+  color: white;
+  border-color: #43b06f;
+  animation: pop 0.35s ease;
+}
+.answer-btn.wrong {
+  background: linear-gradient(135deg, #e05050, #f08a8a);
+  color: white;
+  border-color: #e05050;
+  animation: shake 0.4s ease;
+}
+.answer-btn:disabled { cursor: default; }
+@keyframes pop { 0%{transform:scale(1)} 45%{transform:scale(1.07)} 100%{transform:scale(1)} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-7px)} 75%{transform:translateX(7px)} }
+
+.frac-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  line-height: 1.1;
+  color: inherit;
+}
+.frac-btn .fn { border-bottom: 3px solid currentColor; padding-bottom: 3px; margin-bottom: 3px; }
+
+/* ── Next button ── */
+.next-wrap { text-align: center; margin-bottom: 14px; }
+.next-btn {
+  background: linear-gradient(135deg, #5b2d8e, #a18cd1);
+  color: white;
+  border: none;
+  padding: 14px 38px;
+  font-size: 1.15rem;
+  font-family: inherit;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  display: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 5px 16px rgba(91,45,142,0.32);
+}
+.next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(91,45,142,0.4); }
+
+/* ── Summary ── */
+.summary-card {
+  background: white;
+  border-radius: 24px;
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 6px 22px rgba(0,0,0,0.11);
+  display: none;
+}
+.summary-card h2 { font-size: 2rem; color: #5b2d8e; margin-bottom: 8px; }
+.summary-emoji { font-size: 5rem; margin: 14px 0; }
+.summary-score { font-size: 1.5rem; color: #444; margin-bottom: 16px; }
+.summary-score strong { color: #5b2d8e; font-size: 2rem; }
+.breakdown { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
+.breakdown-item { padding: 10px 22px; border-radius: 14px; font-size: 1.1rem; font-weight: 700; }
+.breakdown-item.ok  { background: #d5f4e6; color: #1a6b3c; }
+.breakdown-item.err { background: #fde8e8; color: #b03030; }
+.summary-msg { font-size: 1.05rem; color: #777; margin-bottom: 18px; line-height: 1.5; }
+.restart-btn {
+  background: linear-gradient(135deg, #5b2d8e, #a18cd1);
+  color: white;
+  border: none;
+  padding: 14px 36px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  font-weight: 700;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 5px 16px rgba(91,45,142,0.32);
+}
+
+/* ── Confetti ── */
+.confetti-piece {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  animation: fall linear forwards;
+  border-radius: 3px;
+}
+@keyframes fall {
+  0%   { transform: translateY(-30px) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(110vh) rotate(900deg); opacity: 0; }
+}
+
+/* ── Misc ── */
+.hint { font-size: 0.85rem; color: #aaa; margin-top: 8px; }
+.bar-label { font-size: 0.9rem; color: #888; margin-top: 6px; }
+
+/* ── Calc section visuals ── */
+.calc-eq-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 0 18px;
+}
+.calc-bars-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.calc-bar-wrap { text-align: center; }
+.calc-bar-lbl { font-size: 0.78rem; margin-top: 3px; font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>🌟 Brøker & Decimaler 🌟</h1>
+  <p class="subtitle">Lær brøker og decimaltal med sjove opgaver!</p>
+
+  <!-- ── Tab navigation ── -->
+  <div class="tab-nav">
+    <button class="tab-nav-btn active" id="tab-btn-dec" onclick="switchTab('dec')">🔢 Brøk & Decimal</button>
+    <button class="tab-nav-btn" id="tab-btn-calc" onclick="switchTab('calc')">➕ Brøkregning</button>
+  </div>
+
+  <!-- ════════════════════════════════════════ -->
+  <!--  SEKTION 1 – BRØK & DECIMAL (original)  -->
+  <!-- ════════════════════════════════════════ -->
+  <div id="section-dec">
+
+    <div class="level-selector">
+      <button class="level-btn active" id="lvl1" onclick="setLevel(1)">⭐ Let</button>
+      <button class="level-btn" id="lvl2" onclick="setLevel(2)">⭐⭐ Mellem</button>
+      <button class="level-btn" id="lvl3" onclick="setLevel(3)">⭐⭐⭐ Svær</button>
+    </div>
+
+    <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+
+    <div class="hud">
+      <div class="hud-score">⭐ <span id="scoreDisplay">0</span> point</div>
+      <div class="hud-lives" id="livesDisplay">❤️❤️❤️</div>
+      <div class="hud-streak" id="streakDisplay"></div>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <div class="card" id="questionCard">
+      <div class="badge" id="badge">Opgave 1/10</div>
+      <div class="question-text" id="questionText"></div>
+      <div id="visualArea"></div>
+      <div class="answers" id="answersArea"></div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Næste opgave →</button>
+    </div>
+
+    <div class="summary-card" id="summaryCard">
+      <h2 id="sumTitle"></h2>
+      <div class="summary-emoji" id="sumEmoji"></div>
+      <div class="summary-score">Du fik <strong id="sumScore"></strong> point!</div>
+      <div class="breakdown">
+        <div class="breakdown-item ok">✅ <span id="sumCorrect">0</span> rigtige</div>
+        <div class="breakdown-item err">❌ <span id="sumWrong">0</span> forkerte</div>
+      </div>
+      <p class="summary-msg" id="sumMsg"></p>
+      <button class="restart-btn" onclick="restartGame()">Spil igen! 🔄</button>
+    </div>
+
+  </div><!-- /section-dec -->
+
+  <!-- ════════════════════════════════════════ -->
+  <!--  SEKTION 2 – BRØKREGNING (ny)           -->
+  <!-- ════════════════════════════════════════ -->
+  <div id="section-calc" style="display:none">
+
+    <div class="op-selector">
+      <button class="op-btn active" id="op-mix" onclick="C_setOp('mix')">🔀 Mix</button>
+      <button class="op-btn" id="op-add" onclick="C_setOp('+')">➕ Plus</button>
+      <button class="op-btn" id="op-sub" onclick="C_setOp('-')">➖ Minus</button>
+      <button class="op-btn" id="op-mul" onclick="C_setOp('×')">✖️ Gange</button>
+    </div>
+
+    <div class="level-selector">
+      <button class="level-btn active" id="c_lvl1" onclick="C_setLevel(1)">⭐ Let</button>
+      <button class="level-btn" id="c_lvl2" onclick="C_setLevel(2)">⭐⭐ Mellem</button>
+      <button class="level-btn" id="c_lvl3" onclick="C_setLevel(3)">⭐⭐⭐ Svær</button>
+    </div>
+
+    <div class="progress-container"><div class="progress-bar" id="c_progressBar"></div></div>
+
+    <div class="hud">
+      <div class="hud-score">⭐ <span id="c_scoreDisplay">0</span> point</div>
+      <div class="hud-lives" id="c_livesDisplay">❤️❤️❤️</div>
+      <div class="hud-streak" id="c_streakDisplay"></div>
+    </div>
+
+    <div class="feedback" id="c_feedback"></div>
+
+    <div class="card" id="c_questionCard">
+      <div class="badge" id="c_badge">Opgave 1/10</div>
+      <div class="question-text" id="c_questionText"></div>
+      <div id="c_visualArea"></div>
+      <div class="answers" id="c_answersArea"></div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="next-btn" id="c_nextBtn" onclick="C_nextQuestion()">Næste opgave →</button>
+    </div>
+
+    <div class="summary-card" id="c_summaryCard">
+      <h2 id="c_sumTitle"></h2>
+      <div class="summary-emoji" id="c_sumEmoji"></div>
+      <div class="summary-score">Du fik <strong id="c_sumScore"></strong> point!</div>
+      <div class="breakdown">
+        <div class="breakdown-item ok">✅ <span id="c_sumCorrect">0</span> rigtige</div>
+        <div class="breakdown-item err">❌ <span id="c_sumWrong">0</span> forkerte</div>
+      </div>
+      <p class="summary-msg" id="c_sumMsg"></p>
+      <button class="restart-btn" onclick="C_restartGame()">Spil igen! 🔄</button>
+    </div>
+
+  </div><!-- /section-calc -->
+</div><!-- /container -->
+
+<script>
+// =============================================
+// TAB SWITCHING
+// =============================================
+function switchTab(tab) {
+  document.getElementById('section-dec').style.display  = tab === 'dec'  ? '' : 'none';
+  document.getElementById('section-calc').style.display = tab === 'calc' ? '' : 'none';
+  document.getElementById('tab-btn-dec').classList.toggle('active',  tab === 'dec');
+  document.getElementById('tab-btn-calc').classList.toggle('active', tab === 'calc');
+}
+
+// =============================================
+// SHARED UTILITIES
+// =============================================
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function confetti() {
+  const colors = ['#e91e8c','#9b59b6','#3498db','#f1c40f','#2ecc71','#e67e22','#1abc9c'];
+  for (let i = 0; i < 55; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const sz = Math.random() * 10 + 5;
+    el.style.cssText = `left:${Math.random()*100}vw;top:-20px;background:${colors[Math.floor(Math.random()*colors.length)]};width:${sz}px;height:${sz}px;border-radius:${Math.random()>.5?'50%':'3px'};animation-duration:${Math.random()*2.5+2}s;animation-delay:${Math.random()*.8}s`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+}
+
+// GCD & fraction helpers
+function gcd(a, b) { while(b) { let t=b; b=a%b; a=t; } return a; }
+function simplifyFrac(n, d) {
+  if (!d) return [n, d];
+  const g = gcd(Math.abs(n), Math.abs(d));
+  return [n/g, d/g];
+}
+function fracStr(n, d) {
+  if (d === 1 || !d) return String(n);
+  const [sn, sd] = simplifyFrac(n, d);
+  return sd === 1 ? String(sn) : `${sn}/${sd}`;
+}
+function fracEqual(s1, s2) {
+  const parse = s => s.includes('/') ? s.split('/').map(Number) : [parseInt(s), 1];
+  const [n1,d1] = parse(s1), [n2,d2] = parse(s2);
+  return n1*d2 === n2*d1;
+}
+
+// =============================================
+// SEKTION 1 – BRØK & DECIMAL
+// =============================================
+const PAIRS = [
+  { num:1, den:2,  dec:0.5,   disp:'0,5',  lvl:1 },
+  { num:1, den:4,  dec:0.25,  disp:'0,25', lvl:1 },
+  { num:3, den:4,  dec:0.75,  disp:'0,75', lvl:1 },
+  { num:1, den:5,  dec:0.2,   disp:'0,2',  lvl:1 },
+  { num:1, den:10, dec:0.1,   disp:'0,1',  lvl:1 },
+  { num:2, den:5,  dec:0.4,   disp:'0,4',  lvl:2 },
+  { num:3, den:5,  dec:0.6,   disp:'0,6',  lvl:2 },
+  { num:4, den:5,  dec:0.8,   disp:'0,8',  lvl:2 },
+  { num:3, den:10, dec:0.3,   disp:'0,3',  lvl:2 },
+  { num:7, den:10, dec:0.7,   disp:'0,7',  lvl:2 },
+  { num:2, den:4,  dec:0.5,   disp:'0,5',  lvl:3 },
+  { num:9, den:10, dec:0.9,   disp:'0,9',  lvl:3 },
+  { num:5, den:10, dec:0.5,   disp:'0,5',  lvl:3 },
+  { num:6, den:10, dec:0.6,   disp:'0,6',  lvl:3 },
+  { num:2, den:10, dec:0.2,   disp:'0,2',  lvl:3 },
+];
+
+let G = {};
+
+function initState() {
+  G = {
+    level: G.level || 1, score: 0, lives: 3, streak: 0, qNum: 0, totalQ: 10,
+    correct: 0, wrong: 0, answered: false, current: null, pool: [], poolIdx: 0, visualMode: 0,
+  };
+}
+
+function renderFractionSymbol(num, den, big) {
+  const sz = big ? '3rem' : '1.5rem';
+  const bw = big ? '4px' : '3px';
+  return `<span style="display:inline-flex;flex-direction:column;align-items:center;font-size:${sz};font-weight:800;color:#5b2d8e;line-height:1.1;">
+    <span style="border-bottom:${bw} solid #5b2d8e;padding-bottom:4px;">${num}</span>
+    <span style="padding-top:4px;">${den}</span>
+  </span>`;
+}
+
+function renderBar(num, den) {
+  const W=300, H=64, gap=5;
+  const pw=(W-gap*(den-1))/den;
+  let rects='';
+  for (let i=0;i<den;i++) {
+    const x=i*(pw+gap);
+    rects+=`<rect x="${x.toFixed(1)}" y="2" width="${pw.toFixed(1)}" height="${H-4}"
+      fill="${i<num?'#e91e8c':'#f4d4eb'}" stroke="white" stroke-width="2" rx="10"/>`;
+  }
+  return `<div style="display:flex;flex-direction:column;align-items:center;margin:14px 0 0;">
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="filter:drop-shadow(0 3px 8px rgba(0,0,0,.13));">${rects}</svg>
+    <div class="bar-label">${num} ud af ${den} dele</div></div>`;
+}
+
+function renderPizza(num, den) {
+  const cx=80,cy=80,r=70;
+  const step=(2*Math.PI)/den;
+  let paths='';
+  for (let i=0;i<den;i++) {
+    const a1=-Math.PI/2+i*step, a2=a1+step;
+    const x1=cx+r*Math.cos(a1),y1=cy+r*Math.sin(a1);
+    const x2=cx+r*Math.cos(a2),y2=cy+r*Math.sin(a2);
+    paths+=`<path d="M${cx},${cy} L${x1.toFixed(2)},${y1.toFixed(2)} A${r},${r} 0 ${step>Math.PI?1:0},1 ${x2.toFixed(2)},${y2.toFixed(2)} Z"
+      fill="${i<num?'#e91e8c':'#f4d4eb'}" stroke="white" stroke-width="2"/>`;
+  }
+  paths+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="white" stroke-width="2"/>`;
+  return `<div style="display:flex;flex-direction:column;align-items:center;margin:10px 0 0;">
+    <svg width="160" height="160" viewBox="0 0 160 160" style="filter:drop-shadow(0 3px 10px rgba(0,0,0,.14));">${paths}</svg>
+    <div class="bar-label">${num} ud af ${den} dele</div></div>`;
+}
+
+function renderVisual(num, den) {
+  return G.visualMode%2===0 ? renderBar(num,den) : renderPizza(num,den);
+}
+
+const Q_TYPES = ['frac-to-dec','dec-to-frac','visual-to-frac','visual-to-dec'];
+
+function getPool() { return shuffle(PAIRS.filter(p=>p.lvl<=G.level)); }
+
+function distractors(correct, field) {
+  return shuffle(PAIRS.filter(p=>p[field]!==correct[field])).slice(0,3);
+}
+
+function makeQuestion(pair, idx) {
+  const type = Q_TYPES[idx%Q_TYPES.length];
+  if (type==='frac-to-dec') {
+    return { type, badge:'🔢 Brøk → Decimal', text:'Hvad er denne brøk som decimaltal?',
+      visual:renderFractionSymbol(pair.num,pair.den,true), hint:`Tip: Del ${pair.num} med ${pair.den}`,
+      opts:shuffle([pair.disp,...distractors(pair,'disp').map(p=>p.disp)]), correct:pair.disp, isFrac:false };
+  }
+  if (type==='dec-to-frac') {
+    const opts = shuffle([pair,...distractors(pair,'num')]).map(p=>`${p.num}/${p.den}`);
+    return { type, badge:'🔢 Decimal → Brøk', text:`Hvilken brøk svarer til ${pair.disp}?`,
+      visual:`<div class="big-decimal">${pair.disp}</div>`, hint:'',
+      opts, correct:`${pair.num}/${pair.den}`, isFrac:true };
+  }
+  if (type==='visual-to-frac') {
+    G.visualMode++;
+    return { type, badge:'📊 Figur → Brøk', text:'Hvilken brøk viser figuren?',
+      visual:renderVisual(pair.num,pair.den), hint:'',
+      opts:shuffle([pair,...distractors(pair,'num')]).map(p=>`${p.num}/${p.den}`),
+      correct:`${pair.num}/${pair.den}`, isFrac:true };
+  }
+  G.visualMode++;
+  return { type, badge:'📊 Figur → Decimal', text:'Hvad er decimaltal for den farvede del?',
+    visual:renderVisual(pair.num,pair.den), hint:'',
+    opts:shuffle([pair.disp,...distractors(pair,'disp').map(p=>p.disp)]), correct:pair.disp, isFrac:false };
+}
+
+function showQuestion() {
+  if (G.qNum>=G.totalQ||G.lives<=0) { showSummary(); return; }
+  const pair=G.pool[G.poolIdx%G.pool.length]; G.poolIdx++;
+  const q=makeQuestion(pair,G.qNum); G.current=q; G.answered=false;
+  document.getElementById('progressBar').style.width=(G.qNum/G.totalQ*100)+'%';
+  document.getElementById('badge').textContent=`Opgave ${G.qNum+1}/${G.totalQ} · ${q.badge}`;
+  document.getElementById('questionText').textContent=q.text;
+  document.getElementById('visualArea').innerHTML=q.visual+(q.hint?`<div class="hint">${q.hint}</div>`:'');
+  const area=document.getElementById('answersArea'); area.innerHTML='';
+  q.opts.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='answer-btn'; btn.dataset.value=opt;
+    if (q.isFrac&&opt.includes('/')) {
+      const [n,d]=opt.split('/');
+      btn.innerHTML=`<span class="frac-btn"><span class="fn">${n}</span><span>${d}</span></span>`;
+    } else btn.textContent=opt;
+    btn.addEventListener('click',()=>checkAnswer(opt,btn));
+    area.appendChild(btn);
+  });
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('nextBtn').style.display='none';
+}
+
+function checkAnswer(selected, btn) {
+  if (G.answered) return; G.answered=true;
+  const ok=selected===G.current.correct;
+  const area=document.getElementById('answersArea');
+  area.querySelectorAll('.answer-btn').forEach(b=>{
+    b.disabled=true;
+    if (b.dataset.value===G.current.correct) b.classList.add('correct');
+  });
+  if (!ok) btn.classList.add('wrong');
+  const posMsg=['Rigtigt! Det er korrekt! 🎉','Fremragende! Du er dygtig! ⭐','Helt rigtigt! Super klaret! 🌟','Perfekt! Flot arbejde! 🏆','Ja! Det vidste du godt! ✨'];
+  const negMsg=[`Næsten! Det rigtige svar var: ${G.current.correct} 🤔`,`Ikke helt rigtigt — svaret er: ${G.current.correct} 💡`,`Øv! Men nu ved du det! Svaret er: ${G.current.correct} 📚`];
+  if (ok) {
+    G.streak++; const bonus=G.streak>=3?20:10; G.score+=bonus; G.correct++;
+    let msg=posMsg[Math.floor(Math.random()*posMsg.length)];
+    if (G.streak>=3) msg+=` (+${bonus} for ${G.streak} i træk! 🔥)`;
+    setFeedback(msg,true);
+    if (G.streak>=5) confetti();
+  } else { G.streak=0; G.lives--; G.wrong++; setFeedback(negMsg[Math.floor(Math.random()*negMsg.length)],false); }
+  updateHUD(); G.qNum++;
+  const nb=document.getElementById('nextBtn'); nb.style.display='inline-block';
+  nb.textContent=(G.qNum>=G.totalQ||G.lives<=0)?'Se resultat 🏆':'Næste opgave →';
+}
+
+function setFeedback(msg,ok) {
+  const el=document.getElementById('feedback'); el.textContent=msg;
+  el.className='feedback '+(ok?'correct':'wrong');
+}
+function nextQuestion() { showQuestion(); }
+
+function updateHUD() {
+  document.getElementById('scoreDisplay').textContent=G.score;
+  document.getElementById('livesDisplay').textContent='❤️'.repeat(G.lives)+'🖤'.repeat(3-G.lives);
+  document.getElementById('streakDisplay').textContent=G.streak>=3?`🔥 ${G.streak} i træk!`:'';
+}
+
+function showSummary() {
+  document.getElementById('questionCard').style.display='none';
+  document.getElementById('nextBtn').style.display='none';
+  document.getElementById('progressBar').style.width='100%';
+  const pct=G.correct/G.totalQ;
+  let title,emoji,msg;
+  if (pct>=0.9){ title='Du er en stjerne! 🌟'; emoji='🏆'; msg='Næsten alt rigtigt! Prøv et sværere niveau!'; confetti(); setTimeout(confetti,600); }
+  else if (pct>=0.7){ title='Rigtig godt klaret! 😄'; emoji='⭐'; msg='Du er godt på vej! Prøv igen og slå din score!'; }
+  else if (pct>=0.5){ title='Godt forsøg! 👍'; emoji='😊'; msg='Øvelse gør mester! Prøv igen!'; }
+  else { title='Bare prøv igen! 💪'; emoji='😃'; msg='Det er helt ok! Prøv "Let" niveauet og øv dig!'; }
+  document.getElementById('sumTitle').textContent=title;
+  document.getElementById('sumEmoji').textContent=emoji;
+  document.getElementById('sumScore').textContent=G.score;
+  document.getElementById('sumCorrect').textContent=G.correct;
+  document.getElementById('sumWrong').textContent=G.wrong;
+  document.getElementById('sumMsg').textContent=msg;
+  const sc=document.getElementById('summaryCard');
+  sc.style.display='block'; sc.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function setLevel(level) {
+  G.level=level;
+  [1,2,3].forEach(n=>document.getElementById('lvl'+n).classList.toggle('active',n===level));
+  restartGame();
+}
+function restartGame() {
+  initState(); G.pool=getPool();
+  document.getElementById('summaryCard').style.display='none';
+  document.getElementById('questionCard').style.display='block';
+  document.getElementById('feedback').textContent='';
+  document.getElementById('feedback').className='feedback';
+  updateHUD(); showQuestion();
+}
+
+// Init sektion 1
+initState(); G.pool=getPool(); updateHUD(); showQuestion();
+
+
+// =============================================
+// SEKTION 2 – BRØKREGNING
+// =============================================
+// Opgavepulje: a OP b = r, hint viser trin-for-trin forklaring
+const CALC_POOL = [
+  // ── Niveau 1: addition/subtraktion, samme nævner ──
+  { op:'+', a:[1,4], b:[1,4], r:[2,4], lvl:1, hint:'Tæller lægges sammen: 1+1=2. Nævner forbliver 4 → 2/4' },
+  { op:'+', a:[1,4], b:[2,4], r:[3,4], lvl:1, hint:'Tæller lægges sammen: 1+2=3. Nævner forbliver 4 → 3/4' },
+  { op:'+', a:[1,5], b:[2,5], r:[3,5], lvl:1, hint:'Tæller lægges sammen: 1+2=3. Nævner forbliver 5 → 3/5' },
+  { op:'+', a:[2,5], b:[2,5], r:[4,5], lvl:1, hint:'Tæller lægges sammen: 2+2=4. Nævner forbliver 5 → 4/5' },
+  { op:'+', a:[1,3], b:[1,3], r:[2,3], lvl:1, hint:'Tæller lægges sammen: 1+1=2. Nævner forbliver 3 → 2/3' },
+  { op:'-', a:[3,4], b:[1,4], r:[2,4], lvl:1, hint:'Tæller trækkes fra: 3−1=2. Nævner forbliver 4 → 2/4 = 1/2' },
+  { op:'-', a:[3,4], b:[2,4], r:[1,4], lvl:1, hint:'Tæller trækkes fra: 3−2=1. Nævner forbliver 4 → 1/4' },
+  { op:'-', a:[4,5], b:[2,5], r:[2,5], lvl:1, hint:'Tæller trækkes fra: 4−2=2. Nævner forbliver 5 → 2/5' },
+  { op:'-', a:[3,5], b:[1,5], r:[2,5], lvl:1, hint:'Tæller trækkes fra: 3−1=2. Nævner forbliver 5 → 2/5' },
+  { op:'-', a:[2,3], b:[1,3], r:[1,3], lvl:1, hint:'Tæller trækkes fra: 2−1=1. Nævner forbliver 3 → 1/3' },
+  // ── Niveau 2: tiendedele + gange ──
+  { op:'+', a:[2,10], b:[3,10], r:[5,10], lvl:2, hint:'Tæller lægges sammen: 2+3=5. Nævner forbliver 10 → 5/10 = 1/2' },
+  { op:'+', a:[3,10], b:[4,10], r:[7,10], lvl:2, hint:'Tæller lægges sammen: 3+4=7. Nævner forbliver 10 → 7/10' },
+  { op:'+', a:[1,10], b:[6,10], r:[7,10], lvl:2, hint:'Tæller lægges sammen: 1+6=7. Nævner forbliver 10 → 7/10' },
+  { op:'-', a:[7,10], b:[3,10], r:[4,10], lvl:2, hint:'Tæller trækkes fra: 7−3=4. Nævner forbliver 10 → 4/10 = 2/5' },
+  { op:'-', a:[9,10], b:[4,10], r:[5,10], lvl:2, hint:'Tæller trækkes fra: 9−4=5. Nævner forbliver 10 → 5/10 = 1/2' },
+  { op:'-', a:[8,10], b:[5,10], r:[3,10], lvl:2, hint:'Tæller trækkes fra: 8−5=3. Nævner forbliver 10 → 3/10' },
+  { op:'×', a:[1,4], b:[2,1], r:[2,4], lvl:2, hint:'Gang tæller med 2: 1×2=2. Nævner forbliver 4 → 2/4 = 1/2' },
+  { op:'×', a:[1,4], b:[3,1], r:[3,4], lvl:2, hint:'Gang tæller med 3: 1×3=3. Nævner forbliver 4 → 3/4' },
+  { op:'×', a:[1,5], b:[2,1], r:[2,5], lvl:2, hint:'Gang tæller med 2: 1×2=2. Nævner forbliver 5 → 2/5' },
+  { op:'×', a:[1,3], b:[3,1], r:[1,1], lvl:2, hint:'Gang tæller med 3: 1×3=3. Nævner forbliver 3. 3/3 = 1 hel! 🎉' },
+  // ── Niveau 3: forskellige nævnere ──
+  { op:'+', a:[1,4], b:[1,2], r:[3,4], lvl:3, hint:'1/2 = 2/4. Så: 1/4 + 2/4 = 3/4' },
+  { op:'+', a:[1,2], b:[1,4], r:[3,4], lvl:3, hint:'1/2 = 2/4. Så: 2/4 + 1/4 = 3/4' },
+  { op:'+', a:[1,5], b:[2,10], r:[4,10], lvl:3, hint:'1/5 = 2/10. Så: 2/10 + 2/10 = 4/10' },
+  { op:'-', a:[3,4], b:[1,2], r:[1,4], lvl:3, hint:'1/2 = 2/4. Så: 3/4 − 2/4 = 1/4' },
+  { op:'-', a:[1,2], b:[1,4], r:[1,4], lvl:3, hint:'1/2 = 2/4. Så: 2/4 − 1/4 = 1/4' },
+  { op:'-', a:[7,10], b:[1,5], r:[5,10], lvl:3, hint:'1/5 = 2/10. Så: 7/10 − 2/10 = 5/10 = 1/2' },
+  { op:'×', a:[1,2], b:[4,1], r:[2,1],  lvl:3, hint:'Gang tæller med 4: 1×4=4. Nævner forbliver 2. 4/2 = 2 hele!' },
+  { op:'×', a:[2,5], b:[5,1], r:[2,1],  lvl:3, hint:'Gang tæller med 5: 2×5=10. Nævner forbliver 5. 10/5 = 2 hele!' },
+  { op:'+', a:[1,4], b:[3,4], r:[1,1],  lvl:3, hint:'Tæller lægges sammen: 1+3=4. 4/4 = 1 hel! 🎉' },
+  { op:'+', a:[3,10], b:[7,10], r:[1,1], lvl:3, hint:'Tæller lægges sammen: 3+7=10. 10/10 = 1 hel! 🎉' },
+];
+
+let C = {};
+
+function C_initState() {
+  C = {
+    level: C.level||1, op: C.op||'mix',
+    score:0, lives:3, streak:0, qNum:0, totalQ:10,
+    correct:0, wrong:0, answered:false, current:null, pool:[], poolIdx:0,
+  };
+}
+
+function C_getPool() {
+  let pool = CALC_POOL.filter(p=>p.lvl<=C.level);
+  if (C.op!=='mix') pool=pool.filter(p=>p.op===C.op);
+  if (!pool.length) pool=CALC_POOL.filter(p=>p.lvl<=C.level);
+  return shuffle([...pool]);
+}
+
+// ── Visual helpers ──
+function C_fracHTML(n, d, color='#5b2d8e', sz='2.6rem') {
+  if (d===1) return `<span style="font-size:${sz};font-weight:800;color:${color};">${n}</span>`;
+  return `<span style="display:inline-flex;flex-direction:column;align-items:center;font-size:${sz};font-weight:800;color:${color};line-height:1.1;">
+    <span style="border-bottom:4px solid ${color};padding-bottom:4px;">${n}</span>
+    <span style="padding-top:4px;">${d}</span>
+  </span>`;
+}
+
+function C_miniBar(num, den, fill, empty) {
+  const W=155, H=42, gap=3;
+  const effD=Math.min(den,12), effN=Math.min(num,effD);
+  const pw=(W-gap*(effD-1))/effD;
+  let rects='';
+  for (let i=0;i<effD;i++) {
+    const x=i*(pw+gap);
+    rects+=`<rect x="${x.toFixed(1)}" y="1" width="${pw.toFixed(1)}" height="${H-2}"
+      fill="${i<effN?fill:empty}" stroke="white" stroke-width="1.5" rx="5"/>`;
+  }
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="filter:drop-shadow(0 2px 5px rgba(0,0,0,.1));">${rects}</svg>`;
+}
+
+function C_renderVisual(prob) {
+  const [an,ad]=prob.a, [bn,bd]=prob.b, op=prob.op;
+
+  // Equation row (large fraction symbols)
+  const fracA=C_fracHTML(an,ad,'#5b2d8e');
+  const fracB=bd===1
+    ? `<span style="font-size:2.6rem;font-weight:800;color:#5b2d8e;">${bn}</span>`
+    : C_fracHTML(bn,bd,'#5b2d8e');
+  const eqRow=`<div class="calc-eq-row">
+    ${fracA}
+    <span style="font-size:2.2rem;font-weight:800;color:#bbb;padding:0 2px;">${op}</span>
+    ${fracB}
+    <span style="font-size:2.2rem;font-weight:800;color:#bbb;padding:0 2px;">=</span>
+    <span style="font-size:2.8rem;font-weight:800;color:#e91e8c;">?</span>
+  </div>`;
+
+  // Bars row
+  let barsRow;
+  if (op==='×') {
+    // Show copies of bar for a, capped at 4
+    const copies=Math.min(bn,4);
+    let copyBars='';
+    for (let i=0;i<copies;i++) {
+      copyBars+=`<div style="text-align:center;">
+        ${C_miniBar(an,ad,'#e91e8c','#fae0ef')}
+        <div class="calc-bar-lbl" style="color:#e91e8c;">kopi ${i+1}</div>
+      </div>`;
+    }
+    const extra=bn>4?`<div style="font-size:1.4rem;color:#bbb;align-self:center;padding-top:4px;">…+${bn-4}</div>`:'';
+    barsRow=`<div class="calc-bars-row">${copyBars}${extra}</div>`;
+  } else {
+    barsRow=`<div class="calc-bars-row">
+      <div class="calc-bar-wrap">
+        ${C_miniBar(an,ad,'#e91e8c','#fae0ef')}
+        <div class="calc-bar-lbl" style="color:#c0392b;">${an}/${ad}</div>
+      </div>
+      <div style="font-size:1.8rem;color:#bbb;font-weight:800;align-self:center;">${op}</div>
+      <div class="calc-bar-wrap">
+        ${C_miniBar(bn,bd,'#16a085','#d0ece7')}
+        <div class="calc-bar-lbl" style="color:#16a085;">${bn}/${bd}</div>
+      </div>
+    </div>`;
+  }
+
+  return eqRow+barsRow;
+}
+
+// ── Wrong answer generation ──
+function C_makeDistractors(prob) {
+  const [rn,rd]=prob.r, [an,ad]=prob.a, [bn,bd]=prob.b;
+  const correct=fracStr(rn,rd);
+  const [sn,sd]=simplifyFrac(rn,rd);
+  const cands=[];
+
+  // Off-by-one in simplified numerator
+  if (sn>1) cands.push(fracStr(sn-1,sd));
+  cands.push(fracStr(sn+1,sd));
+
+  // Op-specific mistakes
+  if (prob.op==='+') {
+    cands.push(fracStr(an+bn, ad+bd)); // add both top and bottom (classic mistake)
+    cands.push(fracStr(an,ad));         // just first operand
+    cands.push(fracStr(bn,bd));         // just second operand
+  } else if (prob.op==='-') {
+    cands.push(fracStr(an+bn,ad));     // added instead of subtracted
+    if (sn>2) cands.push(fracStr(sn-2,sd));
+    cands.push(fracStr(sn+2,sd));
+  } else { // ×
+    cands.push(fracStr(an, ad*bn));    // only denominator multiplied
+    cands.push(fracStr(an*bn, ad*bn)); // both multiplied
+    cands.push(fracStr(an,ad));         // unchanged fraction
+  }
+
+  // Additional: different denominator of correct answer
+  if (sd>1) cands.push(fracStr(sn, sd+1));
+
+  // Filter: not correct, not zero, not huge, no dupe
+  const seen=new Set([correct]);
+  return cands.filter(c=>{
+    if (!c||seen.has(c)) return false;
+    seen.add(c);
+    const [cn,cd]=(c.includes('/')?c.split('/').map(Number):[parseInt(c),1]);
+    return !isNaN(cn)&&!isNaN(cd)&&cn>0&&cd>0&&cn<=20&&cd<=20;
+  }).slice(0,3);
+}
+
+function C_fracBtnHTML(str) {
+  if (!str.includes('/')) {
+    return `<span style="font-size:1.9rem;font-weight:800;">${str}</span>`;
+  }
+  const [n,d]=str.split('/');
+  return `<span class="frac-btn"><span class="fn">${n}</span><span>${d}</span></span>`;
+}
+
+// ── Show question ──
+function C_showQuestion() {
+  if (C.qNum>=C.totalQ||C.lives<=0) { C_showSummary(); return; }
+
+  const prob=C.pool[C.poolIdx%C.pool.length]; C.poolIdx++;
+  const correctStr=fracStr(prob.r[0],prob.r[1]);
+
+  let distractors=C_makeDistractors(prob);
+  // Pad if needed
+  let pad=1;
+  while (distractors.length<3) {
+    const fb=fracStr(prob.r[0]+pad,prob.r[1]);
+    if (!distractors.includes(fb)&&fb!==correctStr) distractors.push(fb);
+    pad++;
+    if (pad>10) break;
+  }
+  distractors=distractors.slice(0,3);
+
+  const badgeLabel={'+':'➕ Plus','-':'➖ Minus','×':'✖️ Gange'}[prob.op];
+  const opts=shuffle([correctStr,...distractors]);
+
+  C.current={prob,correctStr}; C.answered=false;
+
+  document.getElementById('c_progressBar').style.width=(C.qNum/C.totalQ*100)+'%';
+  document.getElementById('c_badge').textContent=`Opgave ${C.qNum+1}/${C.totalQ} · ${badgeLabel}`;
+  document.getElementById('c_questionText').textContent='Hvad er svaret på regnestykket?';
+  document.getElementById('c_visualArea').innerHTML=C_renderVisual(prob);
+
+  const area=document.getElementById('c_answersArea'); area.innerHTML='';
+  opts.forEach(opt=>{
+    const btn=document.createElement('button');
+    btn.className='answer-btn'; btn.dataset.value=opt;
+    btn.innerHTML=C_fracBtnHTML(opt);
+    btn.addEventListener('click',()=>C_checkAnswer(opt,btn));
+    area.appendChild(btn);
+  });
+
+  document.getElementById('c_feedback').innerHTML='';
+  document.getElementById('c_feedback').className='feedback';
+  document.getElementById('c_nextBtn').style.display='none';
+}
+
+function C_checkAnswer(selected,btn) {
+  if (C.answered) return; C.answered=true;
+  const ok=fracEqual(selected,C.current.correctStr);
+  const area=document.getElementById('c_answersArea');
+  area.querySelectorAll('.answer-btn').forEach(b=>{
+    b.disabled=true;
+    if (fracEqual(b.dataset.value,C.current.correctStr)) b.classList.add('correct');
+  });
+  if (!ok) btn.classList.add('wrong');
+
+  const posMsg=['Rigtigt! Flot regnet! 🎉','Super! Du er god til brøker! ⭐','Perfekt! Helt rigtigt! 🌟','Fremragende! 🏆'];
+  const fb=document.getElementById('c_feedback');
+  const hint=`<div class="step-hint">💡 ${C.current.prob.hint}</div>`;
+
+  if (ok) {
+    C.streak++; const bonus=C.streak>=3?20:10; C.score+=bonus; C.correct++;
+    let msg=posMsg[Math.floor(Math.random()*posMsg.length)];
+    if (C.streak>=3) msg+=` (${C.streak} i træk! 🔥 +${bonus})`;
+    fb.innerHTML=`<div>${msg}</div>${hint}`;
+    fb.className='feedback correct';
+    if (C.streak>=5) confetti();
+  } else {
+    C.streak=0; C.lives--; C.wrong++;
+    fb.innerHTML=`<div>Ikke helt rigtigt — svaret er <strong>${C.current.correctStr}</strong> 🤔</div>${hint}`;
+    fb.className='feedback wrong';
+  }
+
+  C_updateHUD(); C.qNum++;
+  const nb=document.getElementById('c_nextBtn'); nb.style.display='inline-block';
+  nb.textContent=(C.qNum>=C.totalQ||C.lives<=0)?'Se resultat 🏆':'Næste opgave →';
+}
+
+function C_updateHUD() {
+  document.getElementById('c_scoreDisplay').textContent=C.score;
+  document.getElementById('c_livesDisplay').textContent='❤️'.repeat(C.lives)+'🖤'.repeat(3-C.lives);
+  document.getElementById('c_streakDisplay').textContent=C.streak>=3?`🔥 ${C.streak} i træk!`:'';
+}
+
+function C_showSummary() {
+  document.getElementById('c_questionCard').style.display='none';
+  document.getElementById('c_nextBtn').style.display='none';
+  document.getElementById('c_progressBar').style.width='100%';
+  const pct=C.correct/C.totalQ;
+  let title,emoji,msg;
+  if (pct>=0.9){ title='Du er en regnestjerne! 🌟'; emoji='🏆'; msg='Næsten alt rigtigt! Prøv et sværere niveau!'; confetti(); setTimeout(confetti,600); }
+  else if (pct>=0.7){ title='Rigtig godt klaret! 😄'; emoji='⭐'; msg='Du er godt på vej med brøkregning!'; }
+  else if (pct>=0.5){ title='Godt forsøg! 👍'; emoji='😊'; msg='Læs de blå tips — de hjælper! Prøv igen!'; }
+  else { title='Prøv igen! 💪'; emoji='😃'; msg='Brug "Let" niveauet og læs tipsene under hvert svar!'; }
+  document.getElementById('c_sumTitle').textContent=title;
+  document.getElementById('c_sumEmoji').textContent=emoji;
+  document.getElementById('c_sumScore').textContent=C.score;
+  document.getElementById('c_sumCorrect').textContent=C.correct;
+  document.getElementById('c_sumWrong').textContent=C.wrong;
+  document.getElementById('c_sumMsg').textContent=msg;
+  const sc=document.getElementById('c_summaryCard');
+  sc.style.display='block'; sc.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function C_nextQuestion() { C_showQuestion(); }
+
+function C_setLevel(level) {
+  C.level=level;
+  [1,2,3].forEach(n=>document.getElementById('c_lvl'+n).classList.toggle('active',n===level));
+  C_restartGame();
+}
+
+function C_setOp(op) {
+  C.op=op;
+  const map={'mix':'op-mix','+':'op-add','-':'op-sub','×':'op-mul'};
+  Object.entries(map).forEach(([o,id])=>document.getElementById(id).classList.toggle('active',o===op));
+  C_restartGame();
+}
+
+function C_restartGame() {
+  C_initState(); C.pool=C_getPool();
+  document.getElementById('c_summaryCard').style.display='none';
+  document.getElementById('c_questionCard').style.display='block';
+  document.getElementById('c_feedback').innerHTML='';
+  document.getElementById('c_feedback').className='feedback';
+  C_updateHUD(); C_showQuestion();
+}
+
+// Init sektion 2
+C_initState(); C.pool=C_getPool(); C_updateHUD(); C_showQuestion();
+</script>
+</body>
+</html>
