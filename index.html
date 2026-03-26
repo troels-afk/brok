@@ -416,6 +416,54 @@ h1 {
   .subtitle { display: none; }
   .card { padding: 20px 28px 16px; }
 }
+
+/* ── Sektion 4: Decimalplus ── */
+.d-canvas-wrap {
+  position: relative;
+  margin: 14px 0 10px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #d4c4f0;
+  background: #fdfbff;
+  touch-action: none;
+}
+#d_canvas {
+  display: block;
+  width: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+.d-clear-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(255,255,255,0.9);
+  border: 1.5px solid #d4c4f0;
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  font-weight: 600;
+  color: #5b2d8e;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.d-clear-btn:active { background: rgba(235,220,255,0.95); }
+.d-problem {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #5b2d8e;
+  letter-spacing: 0.03em;
+  margin: 10px 0 4px;
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 768px) {
+  .d-problem { font-size: 3.2rem; }
+}
 </style>
 </head>
 <body>
@@ -429,6 +477,7 @@ h1 {
     <button class="tab-nav-btn active" id="tab-btn-dec" onclick="switchTab('dec')">🔢 Brøk & Decimal</button>
     <button class="tab-nav-btn" id="tab-btn-calc" onclick="switchTab('calc')">➕ Brøkregning</button>
     <button class="tab-nav-btn" id="tab-btn-fig" onclick="switchTab('fig')">🥧 Aflæs Figur</button>
+    <button class="tab-nav-btn" id="tab-btn-add" onclick="switchTab('add')">✏️ Decimalplus</button>
   </div>
 
   <!-- ════════════════════════════════════════ -->
@@ -582,6 +631,55 @@ h1 {
 
   </div><!-- /section-fig -->
 
+  <!-- ════════════════════════════════════════ -->
+  <!--  SEKTION 4 – DECIMALPLUS                -->
+  <!-- ════════════════════════════════════════ -->
+  <div id="section-add" style="display:none">
+
+    <div class="level-selector">
+      <button class="level-btn active" id="d_lvl1" onclick="D_setLevel(1)">⭐ Let</button>
+      <button class="level-btn" id="d_lvl2" onclick="D_setLevel(2)">⭐⭐ Mellem</button>
+      <button class="level-btn" id="d_lvl3" onclick="D_setLevel(3)">⭐⭐⭐ Svær</button>
+    </div>
+
+    <div class="progress-container"><div class="progress-bar" id="d_progressBar"></div></div>
+
+    <div class="hud">
+      <div class="hud-score">⭐ <span id="d_scoreDisplay">0</span> point</div>
+      <div class="hud-lives" id="d_livesDisplay">❤️❤️❤️</div>
+      <div class="hud-streak" id="d_streakDisplay"></div>
+    </div>
+
+    <div class="feedback" id="d_feedback"></div>
+
+    <div class="card" id="d_questionCard">
+      <div class="badge" id="d_badge">Opgave 1/10</div>
+      <div id="d_problemArea"></div>
+      <div class="d-canvas-wrap">
+        <canvas id="d_canvas"></canvas>
+        <button class="d-clear-btn" onclick="D_clearCanvas()">🗑️ Ryd</button>
+      </div>
+      <div class="answers" id="d_answersArea"></div>
+    </div>
+
+    <div class="next-wrap">
+      <button class="next-btn" id="d_nextBtn" onclick="D_nextQuestion()">Næste opgave →</button>
+    </div>
+
+    <div class="summary-card" id="d_summaryCard">
+      <h2 id="d_sumTitle"></h2>
+      <div class="summary-emoji" id="d_sumEmoji"></div>
+      <div class="summary-score">Du fik <strong id="d_sumScore"></strong> point!</div>
+      <div class="breakdown">
+        <div class="breakdown-item ok">✅ <span id="d_sumCorrect">0</span> rigtige</div>
+        <div class="breakdown-item err">❌ <span id="d_sumWrong">0</span> forkerte</div>
+      </div>
+      <p class="summary-msg" id="d_sumMsg"></p>
+      <button class="restart-btn" onclick="D_restartGame()">Spil igen! 🔄</button>
+    </div>
+
+  </div><!-- /section-add -->
+
 </div><!-- /container -->
 
 <script>
@@ -592,9 +690,12 @@ function switchTab(tab) {
   document.getElementById('section-dec').style.display  = tab === 'dec'  ? '' : 'none';
   document.getElementById('section-calc').style.display = tab === 'calc' ? '' : 'none';
   document.getElementById('section-fig').style.display  = tab === 'fig'  ? '' : 'none';
+  document.getElementById('section-add').style.display  = tab === 'add'  ? '' : 'none';
   document.getElementById('tab-btn-dec').classList.toggle('active',  tab === 'dec');
   document.getElementById('tab-btn-calc').classList.toggle('active', tab === 'calc');
   document.getElementById('tab-btn-fig').classList.toggle('active',  tab === 'fig');
+  document.getElementById('tab-btn-add').classList.toggle('active',  tab === 'add');
+  if (tab === 'add') { D_setupCanvas(); if (!D.started) { D.started=true; D_showQuestion(); } }
 }
 
 // =============================================
@@ -1408,6 +1509,276 @@ function F_restartGame() {
 
 // Initialiser sektion 3
 F_initState(); F_updateHUD(); F_showQuestion();
+
+// =============================================
+// SEKTION 4 – DECIMALPLUS
+// =============================================
+const D = {
+  level:1, score:0, lives:3, streak:0,
+  qNum:0, totalQ:10, correct:0, wrong:0,
+  answered:false, current:null, started:false
+};
+
+function D_initState() {
+  D.score=0; D.lives=3; D.streak=0; D.qNum=0;
+  D.correct=0; D.wrong=0; D.answered=false; D.current=null; D.started=false;
+}
+
+// ── Question generation ──
+function D_fmt(n) { return n.toFixed(1).replace('.',','); }
+
+function D_makeQ() {
+  let a, b;
+  if (D.level===1) {
+    // Tenths + tenths, no carrying in decimal place
+    const pool1 = [];
+    for (let x=10;x<=49;x++) for (let y=10;y<=49;y++) {
+      if ((x%10)+(y%10) < 10) pool1.push([x,y]);
+    }
+    const pick = pool1[Math.floor(Math.random()*pool1.length)];
+    a=pick[0]; b=pick[1];
+  } else if (D.level===2) {
+    // Tenths + tenths with carrying
+    const pool2 = [];
+    for (let x=10;x<=79;x++) for (let y=10;y<=79;y++) {
+      if ((x%10)+(y%10) >= 10 && x+y <= 150) pool2.push([x,y]);
+    }
+    const pick = pool2[Math.floor(Math.random()*pool2.length)];
+    a=pick[0]; b=pick[1];
+  } else {
+    // Larger numbers, double carrying possible
+    const pool3 = [];
+    for (let x=20;x<=149;x++) for (let y=20;y<=149;y++) {
+      if (x+y <= 250) pool3.push([x,y]);
+    }
+    const pick = pool3[Math.floor(Math.random()*pool3.length)];
+    a=pick[0]; b=pick[1];
+  }
+  // a, b are integers representing tenths (e.g. 48 = 4.8)
+  const sum = a + b;
+  const aF = a/10, bF = b/10, sF = sum/10;
+
+  // Distractors: off by 0.1, off by 1, carrying mistake
+  const wrong1 = sF + 0.1;
+  const wrong2 = sF - 0.1;
+  const wrong3 = (Math.floor(aF) + Math.floor(bF) + (((a%10)+(b%10))/10)); // forget carry
+  const candidates = [wrong1, wrong2, wrong3, sF+1.0, sF-1.0];
+  const seen = new Set([D_fmt(sF)]);
+  const distractors = [];
+  for (const c of candidates) {
+    const s = D_fmt(c);
+    if (!seen.has(s) && c > 0) { seen.add(s); distractors.push(s); }
+    if (distractors.length >= 3) break;
+  }
+  while (distractors.length < 3) {
+    const s = D_fmt(sF + (distractors.length+1)*0.2);
+    if (!seen.has(s)) { seen.add(s); distractors.push(s); }
+  }
+  const opts = shuffle([D_fmt(sF), ...distractors.slice(0,3)]);
+  return { aStr: D_fmt(aF), bStr: D_fmt(bF), correct: D_fmt(sF), opts };
+}
+
+// ── Canvas ──
+let D_ctx = null;
+let D_drawing = false;
+let D_penActive = false;
+
+function D_setupCanvas() {
+  const canvas = document.getElementById('d_canvas');
+  if (!canvas) return;
+  const wrap = canvas.parentElement;
+  const w = wrap.clientWidth - 4; // account for border
+  const rows = 6, cellSize = 32;
+  const h = rows * cellSize;
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width  = Math.round(w * dpr);
+  canvas.height = Math.round(h * dpr);
+  canvas.style.height = h + 'px';
+  D_ctx = canvas.getContext('2d');
+  D_ctx.scale(dpr, dpr);
+  D_drawGrid(w, h, cellSize);
+}
+
+function D_drawGrid(w, h, cellSize) {
+  if (!D_ctx) return;
+  D_ctx.clearRect(0, 0, w, h);
+  D_ctx.strokeStyle = '#ddd0f5';
+  D_ctx.lineWidth = 1;
+  for (let x=0; x<=w; x+=cellSize) {
+    D_ctx.beginPath(); D_ctx.moveTo(x+0.5,0); D_ctx.lineTo(x+0.5,h); D_ctx.stroke();
+  }
+  for (let y=0; y<=h; y+=cellSize) {
+    D_ctx.beginPath(); D_ctx.moveTo(0,y+0.5); D_ctx.lineTo(w,y+0.5); D_ctx.stroke();
+  }
+}
+
+function D_clearCanvas() {
+  const canvas = document.getElementById('d_canvas');
+  if (!canvas || !D_ctx) return;
+  const w = canvas.width / (window.devicePixelRatio||1);
+  const h = canvas.height / (window.devicePixelRatio||1);
+  D_drawGrid(w, h, 32);
+}
+
+function D_initDrawing() {
+  const canvas = document.getElementById('d_canvas');
+  if (!canvas || canvas._drawInit) return;
+  canvas._drawInit = true;
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width  / (window.devicePixelRatio||1) / rect.width;
+    const scaleY = canvas.height / (window.devicePixelRatio||1) / rect.height;
+    return { x: (e.clientX - rect.left) * scaleX, y: (e.clientY - rect.top) * scaleY };
+  }
+
+  canvas.addEventListener('pointerdown', e => {
+    e.preventDefault();
+    if (e.pointerType === 'touch' && D_penActive) return; // palm rejection
+    if (e.pointerType === 'pen') D_penActive = true;
+    canvas.setPointerCapture(e.pointerId);
+    D_drawing = true;
+    const pos = getPos(e);
+    D_ctx.beginPath();
+    D_ctx.moveTo(pos.x, pos.y);
+    const pressure = e.pressure > 0 ? e.pressure : 0.5;
+    D_ctx.lineWidth = e.pointerType==='pen' ? Math.max(1, pressure * 3) : 4;
+    D_ctx.strokeStyle = '#2c2c6e';
+    D_ctx.lineCap = 'round';
+    D_ctx.lineJoin = 'round';
+  });
+
+  canvas.addEventListener('pointermove', e => {
+    e.preventDefault();
+    if (!D_drawing) return;
+    if (e.pointerType === 'touch' && D_penActive) return;
+    const pos = getPos(e);
+    const pressure = e.pressure > 0 ? e.pressure : 0.5;
+    D_ctx.lineWidth = e.pointerType==='pen' ? Math.max(1, pressure * 3) : 4;
+    D_ctx.lineTo(pos.x, pos.y);
+    D_ctx.stroke();
+    D_ctx.beginPath();
+    D_ctx.moveTo(pos.x, pos.y);
+  });
+
+  canvas.addEventListener('pointerup', e => {
+    D_drawing = false;
+    if (e.pointerType === 'pen') setTimeout(() => { D_penActive = false; }, 500);
+  });
+  canvas.addEventListener('pointercancel', e => {
+    D_drawing = false;
+    if (e.pointerType === 'pen') setTimeout(() => { D_penActive = false; }, 500);
+  });
+}
+
+// ── Game flow ──
+function D_showQuestion() {
+  if (D.qNum >= D.totalQ || D.lives <= 0) { D_showSummary(); return; }
+  const prob = D_makeQ();
+  D.current = prob; D.answered = false;
+
+  document.getElementById('d_progressBar').style.width = (D.qNum/D.totalQ*100)+'%';
+  document.getElementById('d_badge').textContent = `Opgave ${D.qNum+1}/${D.totalQ}`;
+  document.getElementById('d_feedback').innerHTML = '';
+  document.getElementById('d_feedback').className = 'feedback';
+  document.getElementById('d_nextBtn').style.display = 'none';
+
+  document.getElementById('d_problemArea').innerHTML =
+    `<div class="d-problem">${prob.aStr} + ${prob.bStr} = ?</div>`;
+
+  D_setupCanvas();
+  D_initDrawing();
+
+  const ans = prob.opts.map(o =>
+    `<button class="answer-btn" onclick="D_checkAnswer('${o}')" touch-action="manipulation">
+      <span style="font-size:1.6rem;font-weight:800;">${o}</span>
+    </button>`
+  ).join('');
+  document.getElementById('d_answersArea').innerHTML = ans;
+  document.getElementById('d_answersArea').style.gridTemplateColumns = '1fr 1fr';
+}
+
+function D_checkAnswer(answer) {
+  if (D.answered) return;
+  D.answered = true;
+  const prob = D.current;
+  const isCorrect = answer === prob.correct;
+
+  document.querySelectorAll('#d_answersArea button').forEach(btn => {
+    btn.disabled = true;
+    const val = btn.getAttribute('onclick').match(/'([^']+)'/)[1];
+    if (val === prob.correct) btn.classList.add('correct');
+    else if (val === answer && !isCorrect) btn.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('d_feedback');
+  if (isCorrect) {
+    D.score += 10 + (D.streak >= 2 ? 5 : 0); D.streak++; D.correct++;
+    fb.className = 'feedback correct';
+    const bonus = D.streak >= 3 ? `🔥 ${D.streak} i træk!` : '';
+    fb.innerHTML = `✅ Rigtigt! ${bonus}<div class="step-hint">${prob.aStr} + ${prob.bStr} = ${prob.correct}</div>`;
+    if (D.streak >= 3) confetti();
+  } else {
+    D.lives--; D.streak = 0; D.wrong++;
+    fb.className = 'feedback wrong';
+    fb.innerHTML = `❌ Ikke helt. Svaret er <strong>${prob.correct}</strong><div class="step-hint">${prob.aStr} + ${prob.bStr} = ${prob.correct}</div>`;
+  }
+
+  D.qNum++;
+  D_updateHUD();
+  document.getElementById('d_nextBtn').style.display = 'inline-block';
+  if (D.lives <= 0) setTimeout(() => D_nextQuestion(), 1400);
+}
+
+function D_updateHUD() {
+  document.getElementById('d_scoreDisplay').textContent = D.score;
+  document.getElementById('d_livesDisplay').textContent =
+    '❤️'.repeat(D.lives) + '🖤'.repeat(Math.max(0, 3-D.lives));
+  document.getElementById('d_streakDisplay').textContent =
+    D.streak >= 2 ? `🔥 ${D.streak} i træk!` : '';
+}
+
+function D_nextQuestion() {
+  if (D.lives <= 0 || D.qNum >= D.totalQ) { D_showSummary(); return; }
+  D_showQuestion();
+}
+
+function D_showSummary() {
+  document.getElementById('d_questionCard').style.display = 'none';
+  document.getElementById('d_nextBtn').style.display = 'none';
+  const sc = document.getElementById('d_summaryCard');
+  sc.style.display = 'block';
+  const pct = Math.round(D.correct / D.totalQ * 100);
+  let emoji = '😊', msg = 'Godt forsøgt! Prøv igen!';
+  if (pct >= 90) { emoji='🏆'; msg='Fantastisk! Du er en decimalmester!'; confetti(); }
+  else if (pct >= 70) { emoji='🌟'; msg='Rigtig flot! Du er ved at lære det!'; }
+  else if (pct >= 50) { emoji='👍'; msg='Godt gået! Øv dig lidt mere!'; }
+  document.getElementById('d_sumEmoji').textContent = emoji;
+  document.getElementById('d_sumScore').textContent = D.score;
+  document.getElementById('d_sumTitle').textContent = 'Færdig!';
+  document.getElementById('d_sumCorrect').textContent = D.correct;
+  document.getElementById('d_sumWrong').textContent = D.wrong;
+  document.getElementById('d_sumMsg').textContent = msg;
+}
+
+function D_setLevel(level) {
+  D.level = level;
+  [1,2,3].forEach(n => document.getElementById('d_lvl'+n).classList.toggle('active', n===level));
+  D_restartGame();
+}
+
+function D_restartGame() {
+  D_initState();
+  D.started = true;
+  document.getElementById('d_summaryCard').style.display = 'none';
+  document.getElementById('d_questionCard').style.display = 'block';
+  document.getElementById('d_feedback').innerHTML = '';
+  document.getElementById('d_feedback').className = 'feedback';
+  D_updateHUD(); D_showQuestion();
+}
+
+// Initialiser sektion 4 (spørgsmål vises først når tab åbnes)
+D_updateHUD();
 </script>
 </body>
 </html>
