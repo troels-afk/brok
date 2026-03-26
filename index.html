@@ -538,6 +538,7 @@ h1 {
     <div class="op-selector">
       <button class="op-btn active" id="f_mode_aflæs" onclick="F_setMode('aflæs')">🥧 Aflæs figur</button>
       <button class="op-btn" id="f_mode_sammenlign" onclick="F_setMode('sammenlign')">⚖️ Sammenlign</button>
+      <button class="op-btn" id="f_mode_kun_sammenlign" onclick="F_setMode('kun_sammenlign')">🔢 Kun brøker</button>
     </div>
 
     <div class="level-selector">
@@ -1275,18 +1276,27 @@ function F_showQuestion() {
   } else {
     const [an,ad]=prob.a, [bn,bd]=prob.b;
     document.getElementById('f_questionText').textContent='Hvilken brøk er størst? Vælg tegnet.';
-    document.getElementById('f_visualArea').innerHTML=`
-      <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:14px 0;flex-wrap:wrap;">
-        <div class="f-pie-wrap">
-          ${F_pie(an,ad,'#e91e8c',120)}
-          <div style="margin-top:6px;">${F_fracLabel(an,ad)}</div>
-        </div>
-        <span style="font-size:2.4rem;font-weight:900;color:#5b2d8e;">?</span>
-        <div class="f-pie-wrap">
-          ${F_pie(bn,bd,'#16a085',120)}
-          <div style="margin-top:6px;">${F_fracLabel(bn,bd)}</div>
-        </div>
-      </div>`;
+    if (F.mode==='kun_sammenlign') {
+      document.getElementById('f_visualArea').innerHTML=`
+        <div style="display:flex;align-items:center;justify-content:center;gap:36px;margin:24px 0;flex-wrap:wrap;">
+          <span class="f-pie-lbl" style="font-size:3rem;"><span class="fn">${an}</span><span>${ad}</span></span>
+          <span style="font-size:2.4rem;font-weight:900;color:#5b2d8e;">?</span>
+          <span class="f-pie-lbl" style="font-size:3rem;"><span class="fn">${bn}</span><span>${bd}</span></span>
+        </div>`;
+    } else {
+      document.getElementById('f_visualArea').innerHTML=`
+        <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin:14px 0;flex-wrap:wrap;">
+          <div class="f-pie-wrap">
+            ${F_pie(an,ad,'#e91e8c',120)}
+            <div style="margin-top:6px;">${F_fracLabel(an,ad)}</div>
+          </div>
+          <span style="font-size:2.4rem;font-weight:900;color:#5b2d8e;">?</span>
+          <div class="f-pie-wrap">
+            ${F_pie(bn,bd,'#16a085',120)}
+            <div style="margin-top:6px;">${F_fracLabel(bn,bd)}</div>
+          </div>
+        </div>`;
+    }
     const ans=prob.opts.map(o=>`<button class="answer-btn f-cmp-btn" onclick="F_checkAnswer('${o}')">${o}</button>`).join('');
     document.getElementById('f_answersArea').innerHTML=`<div class="f-cmp-row">${ans}</div>`;
     document.getElementById('f_answersArea').style.gridTemplateColumns='';
@@ -1383,7 +1393,7 @@ function F_setLevel(level) {
 
 function F_setMode(mode) {
   F.mode=mode;
-  ['aflæs','sammenlign'].forEach(m=>document.getElementById('f_mode_'+m).classList.toggle('active',m===mode));
+  ['aflæs','sammenlign','kun_sammenlign'].forEach(m=>document.getElementById('f_mode_'+m).classList.toggle('active',m===mode));
   F_restartGame();
 }
 
