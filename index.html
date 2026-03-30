@@ -1588,7 +1588,7 @@ function D_setupCanvas() {
   if (!canvas) return;
   const wrap = canvas.parentElement;
   const w = wrap.clientWidth - 4; // account for border
-  const rows = 6, cellSize = 32;
+  const rows = 10, cellSize = 32;
   const h = rows * cellSize;
   const dpr = window.devicePixelRatio || 1;
   canvas.width  = Math.round(w * dpr);
