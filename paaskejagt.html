@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Påskejagt 🐣</title>
+<title>Påskejagten 🐣</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
@@ -301,7 +301,7 @@ button.reset-btn {
   </a>
   <!-- Header (hidden on start screen) -->
   <div class="header" id="mainHeader" style="display:none">
-    <h1>🐣 Påskejagt</h1>
+    <h1>🐣 Påskejagten</h1>
     <p class="subtitle">Find alle 8 æg og vind påskeskatten!</p>
   </div>
 
@@ -324,68 +324,68 @@ button.reset-btn {
 <script>
 const POSTS = [
   {
-    icon: "🧊",
-    title: "Post 1: Den kolde kæmpe",
-    riddle: "Jeg er stor, kold og hvid, og jeg summer hele dagen. Jeg sover aldrig, for jeg skal holde din mad frisk. Hvad er jeg?",
-    hint: "Find det skjulte æg ved det sted du tænker på — der ligger et stykke papir med kodeordet!",
-    password: "KØLESKAB",
-    display_password: "KØLESKAB"
+    icon: "🌳",
+    title: "Post 1: Den store grønne",
+    riddle: "Jeg er høj og rank, og mine rødder går dybt i jorden. Om foråret springer mine blade ud. Fugle elsker at sidde i mine grene og synge. Hvad er jeg?",
+    hint: "Find det skjulte æg ved foden af mig i haven!",
+    password: "TRÆ",
+    display_password: "TRÆ"
   },
   {
-    icon: "🌿",
-    title: "Post 2: Den tørste plantemand",
-    riddle: "Jeg har blade, men kan ikke læse. Jeg drikker vand, men har ingen mund. Jeg vokser stille i en krukke og gør dit hjem grønt og smukt. Hvad er jeg?",
-    hint: "Find det skjulte æg gemt i eller under mig!",
-    password: "PLANTE",
-    display_password: "PLANTE"
+    icon: "🌸",
+    title: "Post 2: Blomstens vogter",
+    riddle: "Jeg er rund og fyldt med jord. En blomst bor i mig og drikker vand igennem mig. Jeg kan stå på terrassen eller langs stien. Hvad er jeg?",
+    hint: "Kig under mig eller bag mig i haven!",
+    password: "URTEPOTTE",
+    display_password: "URTEPOTTE"
   },
   {
-    icon: "🛋️",
-    title: "Post 3: Den bløde kæmpe",
-    riddle: "Jeg er stor og blød, og inviterer dig til at sætte dig ned. Du sidder på mig, ser film og slappes af. Kig under mine puder! Hvad er jeg?",
-    hint: "Løft puden og find det skjulte æg!",
-    password: "SOFA",
-    display_password: "SOFA"
-  },
-  {
-    icon: "😴",
-    title: "Post 4: Drømmevogteren",
-    riddle: "Jeg er blød som en sky og vogter over dig hver nat. Du lægger dit hoved på mig og lukker øjnene. Om morgenen er du under mit tæppe. Hvad er jeg?",
-    hint: "Kig under mig i din seng — ægget gemmer sig der!",
-    password: "PUDE",
-    display_password: "PUDE"
+    icon: "🪑",
+    title: "Post 3: Solskinspladsen",
+    riddle: "Jeg inviterer dig til at sætte dig ned og nyde solen. Jeg er lavet af træ og har plads til hele familien. Du finder mig i haven. Hvad er jeg?",
+    hint: "Kig under mig — ægget gemmer sig der!",
+    password: "BÆNK",
+    display_password: "BÆNK"
   },
   {
     icon: "🚿",
-    title: "Post 5: Den vådeste ven",
-    riddle: "Hver morgen hænger jeg og venter på dig. Jeg er lavet af stof og tørrer dit ansigt og dine hænder. Jeg elsker at hænge i badeværelset. Hvad er jeg?",
-    hint: "Find ægget gemt bagved eller i min fold!",
-    password: "HÅNDKLÆDE",
-    display_password: "HÅNDKLÆDE"
+    title: "Post 4: Planternes bedste ven",
+    riddle: "Jeg drikker masser af vand og giver det videre til blomster og planter. Jeg har en lang hals og et hoved med mange små huller. Hvad er jeg?",
+    hint: "Find mig i haven ved planterne eller skuret — ægget er gemt tæt på!",
+    password: "VANDKANDE",
+    display_password: "VANDKANDE"
   },
   {
-    icon: "📚",
-    title: "Post 6: Eventyrmesteren",
-    riddle: "Jeg er fuld af historier, eventyr og viden. Bøger bor hos mig. Jeg er høj og stærk og holder dem alle. Hvad er jeg?",
-    hint: "Tag den tykkeste bog ud og kig bag den — der er ægget gemt!",
-    password: "REOL",
-    display_password: "REOL"
+    icon: "🏚️",
+    title: "Post 5: Det lille hus",
+    riddle: "Jeg er et lille hus, men ingen mennesker bor i mig. Jeg passer på redskaber, havegrej og cykler. Hvad er jeg?",
+    hint: "Find ægget gemt foran eller bag mig!",
+    password: "SKUR",
+    display_password: "SKUR"
   },
   {
-    icon: "🪟",
-    title: "Post 7: Lysets vogter",
-    riddle: "Jeg hænger og dækker vinduet om natten. Når du trækker mig til side, strømmer lyset ind. Om dagen er jeg skubbet til siden. Hvad er jeg?",
-    hint: "Kig bag mig — ægget sidder skjult dér!",
-    password: "GARDIN",
-    display_password: "GARDIN"
+    icon: "🌿",
+    title: "Post 6: Den grønne mur",
+    riddle: "Jeg er grøn og vokser langs kanten af haven. Jeg beskytter jer mod vind og nysgerrige naboer. Om sommeren klipper man mig. Hvad er jeg?",
+    hint: "Søg langs mig — ægget er gemt et sted nede ved mig!",
+    password: "HÆK",
+    display_password: "HÆK"
   },
   {
-    icon: "🍽️",
+    icon: "🐦",
+    title: "Post 7: Fuglenes lille hjem",
+    riddle: "Jeg hænger i et træ og er et lille hus til fugle. De flyver ind og ud af mit lille runde hul. Om foråret bygger de rede i mig. Hvad er jeg?",
+    hint: "Kig ved foden af det træ, jeg hænger i!",
+    password: "FUGLEKASSE",
+    display_password: "FUGLEKASSE"
+  },
+  {
+    icon: "🌞",
     title: "Post 8: Den store finale!",
-    riddle: "Tillykke — du er næsten fremme! Den STORE påskeskat gemmer sig der, hvor hele familien samles om morgenmad og aftensmad. Det er et sted med stole rundt om sig. Hvad er det?",
-    hint: "Kig under det, og find din påskeskat! Skriv svaret for at afslutte jagten.",
-    password: "SPISEBORD",
-    display_password: "SPISEBORD",
+    riddle: "Tillykke — du er næsten fremme! Den STORE påskeskat gemmer sig der, hvor familien samles udenfor og spiser mad på varme dage. Det er et bord i haven. Hvad er det?",
+    hint: "Kig under det, og find din påskeskat! Skriv svaret for at vinde!",
+    password: "HAVEBORD",
+    display_password: "HAVEBORD",
     isFinal: true
   }
 ];
@@ -429,11 +429,11 @@ function renderStart() {
   document.getElementById('mainCard').innerHTML = `
     <div class="start-screen">
       <span class="big-egg">🐣</span>
-      <p>Velkommen til <strong>Påskejakten</strong>!<br>
-      Der er 8 poster gemt rundt i huset.<br>
+      <p>Velkommen til <strong>Påskejagten</strong>!<br>
+      Der er 8 poster gemt rundt i haven.<br>
       Løs gåden, find det skjulte æg med kodeordet, og skriv det ind for at komme videre.<br><br>
       <strong>God jagt — og god påske! 🌷</strong></p>
-      <button class="start-btn" onclick="nextPost()">🐰 Start påskejakten!</button>
+      <button class="start-btn" onclick="nextPost()">🐰 Start påskejagten!</button>
     </div>`;
 }
 
@@ -463,7 +463,7 @@ function renderFinish() {
       <h2>Tillykke! Du klarede det!</h2>
       <p style="color:var(--muted);font-size:1rem;margin-bottom:0">Du fandt alle 8 æg og løste alle gåderne.<br>Nu er det tid til at hente din belønning:</p>
       <div class="final-clue">
-        🎁 Løb hen til <strong>spisebordet</strong> og kig <strong>under det</strong> — der venter påskeskatten på dig! 🐰🍫🌷
+        🎁 Løb hen til <strong>havebordet</strong> og kig <strong>under det</strong> — der venter påskeskatten på dig! 🐰🍫🌷
       </div>
       <button class="reset-btn" onclick="renderStart()">↩ Start forfra</button>
     </div>`;
