@@ -11,62 +11,81 @@
 * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
 body {
-  font-family: -apple-system, 'Segoe UI', 'Comic Sans MS', cursive, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: linear-gradient(160deg, #c9d6ff 0%, #e2e2e2 40%, #fbc2eb 100%);
+  -moz-osx-font-smoothing: grayscale;
+  background: #f4f6fb;
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(91,45,142,0.08) 0%, transparent 45%),
+    radial-gradient(circle at 85% 90%, rgba(26,188,156,0.07) 0%, transparent 50%),
+    linear-gradient(180deg, #f4f6fb 0%, #ebeff7 100%);
   min-height: 100vh;
   min-height: -webkit-fill-available;
+  color: #1f2637;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 16px 40px;
+  padding: 28px 16px 40px;
   padding-bottom: max(40px, env(safe-area-inset-bottom));
   padding-left: max(16px, env(safe-area-inset-left));
   padding-right: max(16px, env(safe-area-inset-right));
-  /* Prevent pull-to-refresh and overscroll on iOS */
   overscroll-behavior-y: none;
 }
-.container { max-width: 580px; width: 100%; }
+.container { max-width: 620px; width: 100%; }
 
 h1 {
   text-align: center;
-  font-size: 2.1rem;
-  color: #5b2d8e;
-  margin-bottom: 4px;
-  text-shadow: 2px 2px 0 rgba(255,255,255,0.7);
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #2a1b4a;
+  margin-bottom: 6px;
 }
-.subtitle { text-align: center; font-size: 1rem; color: #888; margin-bottom: 12px; }
+.subtitle {
+  text-align: center;
+  font-size: 0.95rem;
+  color: #6b7385;
+  margin-bottom: 22px;
+  font-weight: 500;
+}
 
 /* ── Tab navigation ── */
 .tab-nav {
   display: flex;
-  gap: 0;
-  margin-bottom: 18px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 16px;
-  padding: 4px;
+  gap: 2px;
+  margin-bottom: 22px;
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-radius: 14px;
+  padding: 5px;
+  box-shadow: 0 1px 3px rgba(20,28,50,0.04);
 }
 .tab-nav-btn {
   flex: 1;
-  padding: 10px 14px;
+  padding: 10px 10px;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   background: transparent;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.88rem;
   font-weight: 600;
-  color: #666;
+  color: #6b7385;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
   touch-action: manipulation;
   -webkit-appearance: none;
   appearance: none;
   user-select: none;
   -webkit-user-select: none;
+  letter-spacing: -0.01em;
 }
-.tab-nav-btn.active { background: white; color: #5b2d8e; box-shadow: 0 3px 10px rgba(0,0,0,0.12); }
-.tab-nav-btn:not(.active):hover { background: rgba(255,255,255,0.5); color: #5b2d8e; }
-.tab-nav-btn:not(.active):active { background: rgba(255,255,255,0.5); color: #5b2d8e; }
+.tab-nav-btn.active {
+  background: linear-gradient(180deg, #5b2d8e, #4a2478);
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(91,45,142,0.25);
+}
+.tab-nav-btn:not(.active):hover,
+.tab-nav-btn:not(.active):active { background: #f0f2f8; color: #2a1b4a; }
 
 /* ── Level selector ── */
 .level-selector {
@@ -77,24 +96,24 @@ h1 {
   flex-wrap: wrap;
 }
 .level-btn {
-  padding: 8px 18px;
-  border-radius: 20px;
-  border: 2px solid rgba(255,255,255,0.6);
-  background: rgba(255,255,255,0.35);
-  color: #444;
+  padding: 7px 16px;
+  border-radius: 10px;
+  border: 1px solid #e4e8f0;
+  background: #ffffff;
+  color: #5b6478;
   cursor: pointer;
   font-family: inherit;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 600;
-  transition: all 0.2s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, box-shadow 0.15s;
   touch-action: manipulation;
   -webkit-appearance: none;
   appearance: none;
   user-select: none;
   -webkit-user-select: none;
 }
-.level-btn:hover, .level-btn:active { background: rgba(255,255,255,0.6); }
-.level-btn.active { background: white; color: #5b2d8e; box-shadow: 0 3px 12px rgba(0,0,0,0.15); }
+.level-btn:hover, .level-btn:active { background: #f0f2f8; color: #2a1b4a; }
+.level-btn.active { background: #5b2d8e; color: #ffffff; border-color: #5b2d8e; box-shadow: 0 2px 6px rgba(91,45,142,0.25); }
 
 /* ── Op selector (arithmetic) ── */
 .op-selector {
@@ -105,57 +124,58 @@ h1 {
   flex-wrap: wrap;
 }
 .op-btn {
-  padding: 7px 15px;
-  border-radius: 20px;
-  border: 2px solid rgba(255,255,255,0.6);
-  background: rgba(255,255,255,0.35);
-  color: #444;
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: 1px solid #e4e8f0;
+  background: #ffffff;
+  color: #5b6478;
   cursor: pointer;
   font-family: inherit;
-  font-size: 0.88rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  transition: all 0.2s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
   touch-action: manipulation;
   -webkit-appearance: none;
   appearance: none;
   user-select: none;
   -webkit-user-select: none;
 }
-.op-btn:hover, .op-btn:active { background: rgba(255,255,255,0.6); }
-.op-btn.active { background: white; color: #5b2d8e; box-shadow: 0 3px 12px rgba(0,0,0,0.15); }
+.op-btn:hover, .op-btn:active { background: #f0f2f8; color: #2a1b4a; }
+.op-btn.active { background: #5b2d8e; color: #ffffff; border-color: #5b2d8e; }
 
 /* ── Progress ── */
 .progress-container {
-  background: rgba(255,255,255,0.4);
-  border-radius: 10px;
-  height: 10px;
-  margin-bottom: 14px;
+  background: #e4e8f0;
+  border-radius: 8px;
+  height: 8px;
+  margin-bottom: 16px;
   overflow: hidden;
 }
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #a18cd1, #e91e8c);
-  border-radius: 10px;
-  transition: width 0.5s ease;
+  background: linear-gradient(90deg, #5b2d8e, #a18cd1);
+  border-radius: 8px;
+  transition: width 0.4s ease;
   width: 0%;
 }
 
 /* ── HUD ── */
 .hud {
-  background: white;
-  border-radius: 18px;
-  padding: 12px 20px;
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-radius: 14px;
+  padding: 12px 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.09);
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(20,28,50,0.05);
   flex-wrap: wrap;
   gap: 6px;
 }
-.hud-score { font-size: 1.2rem; color: #5b2d8e; font-weight: 700; }
-.hud-lives { font-size: 1.4rem; }
-.hud-streak { font-size: 0.95rem; color: #e67e22; font-weight: 700; min-width: 60px; text-align: right; }
+.hud-score { font-size: 1.05rem; color: #2a1b4a; font-weight: 700; letter-spacing: -0.01em; }
+.hud-lives { font-size: 1.25rem; }
+.hud-streak { font-size: 0.9rem; color: #c25e10; font-weight: 700; min-width: 60px; text-align: right; }
 
 /* ── Feedback ── */
 .feedback {
@@ -174,25 +194,26 @@ h1 {
   line-height: 1.5;
   gap: 4px;
 }
-.feedback.correct { background: #d5f4e6; color: #1a6b3c; border: 2px solid #a3e4c1; }
-.feedback.wrong   { background: #fde8e8; color: #b03030; border: 2px solid #f5b8b8; }
+.feedback.correct { background: #e6f4ec; color: #1f8f5b; border: 1px solid #b9e2cb; }
+.feedback.wrong   { background: #fbeaea; color: #c23a3a; border: 1px solid #f1bfbf; }
 .step-hint { font-size: 0.85rem; opacity: 0.85; font-style: italic; font-weight: 500; margin-top: 2px; }
 
 /* ── Card ── */
 .card {
-  background: white;
-  border-radius: 24px;
-  padding: 26px 24px 20px;
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-radius: 16px;
+  padding: 28px 26px 22px;
   text-align: center;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.11);
-  margin-bottom: 14px;
+  box-shadow: 0 4px 14px rgba(20,28,50,0.06);
+  margin-bottom: 16px;
 }
 .badge {
   display: inline-block;
-  background: linear-gradient(135deg, #a18cd1, #fbc2eb);
-  color: white;
-  padding: 4px 14px;
-  border-radius: 20px;
+  background: #f0ecf8;
+  color: #5b2d8e;
+  padding: 4px 12px;
+  border-radius: 6px;
   font-size: 0.82rem;
   font-weight: 600;
   margin-bottom: 12px;
@@ -222,15 +243,15 @@ h1 {
 }
 .answer-btn {
   padding: 16px 10px;
-  font-size: 1.35rem;
+  font-size: 1.3rem;
   font-family: inherit;
-  border: 3px solid #e0d0f0;
-  border-radius: 14px;
-  background: white;
+  border: 1.5px solid #dfe3ec;
+  border-radius: 12px;
+  background: #ffffff;
   cursor: pointer;
-  transition: all 0.15s;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s, color 0.15s;
   font-weight: 700;
-  color: #444;
+  color: #2a1b4a;
   line-height: 1.4;
   min-height: 68px;
   touch-action: manipulation;
@@ -241,22 +262,22 @@ h1 {
 }
 .answer-btn:hover:not(:disabled),
 .answer-btn:active:not(:disabled) {
-  background: linear-gradient(135deg, #a18cd1, #e68fe8);
-  color: white;
-  border-color: #a18cd1;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 14px rgba(161,140,209,0.45);
+  background: #5b2d8e;
+  color: #ffffff;
+  border-color: #5b2d8e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(91,45,142,0.22);
 }
 .answer-btn.correct {
-  background: linear-gradient(135deg, #43b06f, #7ed9a3);
-  color: white;
-  border-color: #43b06f;
+  background: #1f8f5b;
+  color: #ffffff;
+  border-color: #1f8f5b;
   animation: pop 0.35s ease;
 }
 .answer-btn.wrong {
-  background: linear-gradient(135deg, #e05050, #f08a8a);
-  color: white;
-  border-color: #e05050;
+  background: #c23a3a;
+  color: #ffffff;
+  border-color: #c23a3a;
   animation: shake 0.4s ease;
 }
 .answer-btn:disabled { cursor: default; }
@@ -277,61 +298,66 @@ h1 {
 /* ── Next button ── */
 .next-wrap { text-align: center; margin-bottom: 14px; }
 .next-btn {
-  background: linear-gradient(135deg, #5b2d8e, #a18cd1);
-  color: white;
+  background: #5b2d8e;
+  color: #ffffff;
   border: none;
-  padding: 14px 38px;
-  font-size: 1.15rem;
+  padding: 13px 32px;
+  font-size: 1.05rem;
   font-family: inherit;
-  font-weight: 700;
-  border-radius: 50px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-radius: 10px;
   cursor: pointer;
   display: none;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 5px 16px rgba(91,45,142,0.32);
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 2px 8px rgba(91,45,142,0.22);
   touch-action: manipulation;
   -webkit-appearance: none;
   appearance: none;
   user-select: none;
   -webkit-user-select: none;
 }
-.next-btn:hover, .next-btn:active { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(91,45,142,0.4); }
+.next-btn:hover, .next-btn:active { background: #4a2478; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(91,45,142,0.3); }
 
 /* ── Summary ── */
 .summary-card {
-  background: white;
-  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-radius: 16px;
   padding: 36px 28px;
   text-align: center;
-  box-shadow: 0 6px 22px rgba(0,0,0,0.11);
+  box-shadow: 0 4px 14px rgba(20,28,50,0.06);
   display: none;
 }
-.summary-card h2 { font-size: 2rem; color: #5b2d8e; margin-bottom: 8px; }
+.summary-card h2 { font-size: 1.7rem; color: #2a1b4a; margin-bottom: 8px; letter-spacing: -0.02em; }
 .summary-emoji { font-size: 5rem; margin: 14px 0; }
 .summary-score { font-size: 1.5rem; color: #444; margin-bottom: 16px; }
 .summary-score strong { color: #5b2d8e; font-size: 2rem; }
 .breakdown { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 16px; }
 .breakdown-item { padding: 10px 22px; border-radius: 14px; font-size: 1.1rem; font-weight: 700; }
-.breakdown-item.ok  { background: #d5f4e6; color: #1a6b3c; }
-.breakdown-item.err { background: #fde8e8; color: #b03030; }
-.summary-msg { font-size: 1.05rem; color: #777; margin-bottom: 18px; line-height: 1.5; }
+.breakdown-item.ok  { background: #e6f4ec; color: #1f8f5b; }
+.breakdown-item.err { background: #fbeaea; color: #c23a3a; }
+.summary-msg { font-size: 1rem; color: #6b7385; margin-bottom: 20px; line-height: 1.5; }
 .restart-btn {
-  background: linear-gradient(135deg, #5b2d8e, #a18cd1);
-  color: white;
+  background: #5b2d8e;
+  color: #ffffff;
   border: none;
-  padding: 14px 36px;
-  font-size: 1.1rem;
+  padding: 12px 30px;
+  font-size: 1rem;
   font-family: inherit;
-  font-weight: 700;
-  border-radius: 50px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 5px 16px rgba(91,45,142,0.32);
+  box-shadow: 0 2px 8px rgba(91,45,142,0.22);
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
   touch-action: manipulation;
   -webkit-appearance: none;
   appearance: none;
   user-select: none;
   -webkit-user-select: none;
 }
+.restart-btn:hover, .restart-btn:active { background: #4a2478; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(91,45,142,0.3); }
 
 /* ── Confetti ── */
 .confetti-piece {
@@ -464,6 +490,345 @@ h1 {
 @media (min-width: 768px) {
   .d-problem { font-size: 3.2rem; }
 }
+
+/* ── Lær-sektion ── */
+@media (max-width: 420px) {
+  .tab-nav-btn { font-size: 0.76rem; padding: 9px 5px; }
+}
+.learn-intro {
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-left: 3px solid #5b2d8e;
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  color: #3d4358;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.learn-card {
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-radius: 16px;
+  padding: 24px 24px 22px;
+  box-shadow: 0 4px 14px rgba(20,28,50,0.06);
+  margin-bottom: 16px;
+}
+.learn-card h3 {
+  color: #2a1b4a;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 14px;
+  text-align: left;
+}
+.learn-card p {
+  color: #3d4358;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  text-align: left;
+  margin-bottom: 12px;
+}
+.learn-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 14px 0 18px;
+  padding: 14px 0;
+  background: #f7f8fc;
+  border-radius: 10px;
+}
+.learn-visual svg { max-width: 100%; height: auto; }
+.speak-btn {
+  background: #5b2d8e;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 2px 6px rgba(91,45,142,0.22);
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.speak-btn:hover, .speak-btn:active { background: #4a2478; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(91,45,142,0.3); }
+.speak-btn.speaking { background: #c23a3a; box-shadow: 0 2px 8px rgba(194,58,58,0.3); animation: pulse 1.4s infinite; }
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(194,58,58,0.3); }
+  50%      { box-shadow: 0 2px 14px rgba(194,58,58,0.55); }
+}
+.learn-example {
+  background: #f7f8fc;
+  border-left: 3px solid #1abc9c;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 12px 0;
+  font-size: 0.95rem;
+  color: #3d4358;
+  text-align: left;
+  line-height: 1.55;
+}
+.learn-example strong { color: #2a1b4a; font-weight: 700; }
+.tts-note {
+  font-size: 0.8rem;
+  color: #8b92a5;
+  text-align: center;
+  margin-top: 12px;
+  line-height: 1.4;
+}
+
+/* ── Interaktive øvelser ── */
+.exercises-header {
+  text-align: center;
+  margin: 32px 0 18px;
+  padding-top: 22px;
+  border-top: 1px solid #e4e8f0;
+}
+.exercises-header h2 {
+  color: #2a1b4a;
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+}
+.exercises-header p { color: #6b7385; font-size: 0.9rem; }
+
+.exercise-card {
+  background: #ffffff;
+  border: 1px solid #e4e8f0;
+  border-radius: 16px;
+  padding: 22px 22px 20px;
+  box-shadow: 0 4px 14px rgba(20,28,50,0.06);
+  margin-bottom: 16px;
+}
+.exercise-title {
+  font-weight: 700;
+  color: #5b2d8e;
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.exercise-prompt {
+  color: #2a1b4a;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 14px;
+  line-height: 1.4;
+}
+.exercise-prompt strong { color: #5b2d8e; font-size: 1.3rem; font-weight: 800; }
+.exercise-visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 14px;
+  background: #f7f8fc;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  min-height: 130px;
+}
+
+/* Ex1 bar */
+.ex-bar { display: flex; gap: 4px; max-width: 360px; width: 100%; }
+.ex-bar-cell {
+  flex: 1;
+  height: 80px;
+  min-width: 28px;
+  background: #ffffff;
+  border: 2px solid #c9cfdb;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.18s, border-color 0.18s, transform 0.1s;
+}
+.ex-bar-cell:hover { border-color: #5b2d8e; }
+.ex-bar-cell.colored { background: #5b2d8e; border-color: #5b2d8e; }
+.ex-bar-cell.colored:hover { background: #4a2478; }
+.ex-bar-cell:active { transform: scale(0.96); }
+.ex-bar.locked .ex-bar-cell { cursor: default; }
+.ex-bar.locked .ex-bar-cell:hover { border-color: #c9cfdb; }
+.ex-bar.locked .ex-bar-cell.colored:hover { background: #5b2d8e; }
+
+/* Ex option buttons */
+.exercise-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.ex-option {
+  padding: 14px 10px;
+  border: 1.5px solid #dfe3ec;
+  background: #ffffff;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2a1b4a;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+  font-variant-numeric: tabular-nums;
+}
+.ex-option:hover:not(:disabled), .ex-option:active:not(:disabled) {
+  background: #5b2d8e; color: #ffffff; border-color: #5b2d8e; transform: translateY(-1px);
+}
+.ex-option.correct {
+  background: #1f8f5b; color: #ffffff; border-color: #1f8f5b; animation: pop 0.35s ease;
+}
+.ex-option.wrong {
+  background: #c23a3a; color: #ffffff; border-color: #c23a3a; animation: shake 0.4s ease;
+}
+.ex-option:disabled { cursor: default; }
+
+/* Feedback box */
+.exercise-feedback {
+  display: none;
+  padding: 14px 16px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  text-align: left;
+}
+.exercise-feedback.show { display: block; }
+.exercise-feedback.correct { background: #e6f4ec; border-left: 3px solid #1f8f5b; color: #1f6b45; }
+.exercise-feedback.wrong   { background: #fbeaea; border-left: 3px solid #c23a3a; color: #8f2a2a; }
+.fb-title { font-weight: 700; font-size: 1rem; margin-bottom: 6px; color: #2a1b4a; }
+.fb-explanation { margin-top: 10px; font-size: 0.9rem; }
+.fb-compare {
+  display: flex;
+  gap: 18px;
+  margin: 14px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.fb-row { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.fb-label {
+  font-size: 0.72rem;
+  color: #6b7385;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.exercise-actions { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.ex-btn {
+  padding: 10px 22px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+  touch-action: manipulation;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.ex-check { background: #5b2d8e; color: #ffffff; box-shadow: 0 2px 6px rgba(91,45,142,0.22); }
+.ex-check:hover, .ex-check:active { background: #4a2478; transform: translateY(-1px); }
+.ex-new { background: #f0f2f8; color: #2a1b4a; }
+.ex-new:hover, .ex-new:active { background: #e4e8f0; }
+
+/* Number line (ex3) */
+.numline { position: relative; width: 100%; max-width: 340px; margin: 20px auto 6px; }
+.numline-track {
+  height: 6px;
+  background: #e4e8f0;
+  border-radius: 3px;
+  position: relative;
+}
+.numline-marker {
+  position: absolute;
+  top: -6px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #5b2d8e;
+  transform: translateX(-50%);
+  transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
+  box-shadow: 0 2px 6px rgba(91,45,142,0.4);
+}
+.numline-marker.wrong { background: #c23a3a; box-shadow: 0 2px 6px rgba(194,58,58,0.4); }
+.numline-marker.correct { background: #1f8f5b; box-shadow: 0 2px 6px rgba(31,143,91,0.4); }
+.numline-label {
+  position: absolute;
+  top: -34px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transform: translateX(-50%);
+  transition: left 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s;
+  color: #2a1b4a;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.numline-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: #6b7385;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+/* Quiz header */
+.learn-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.learn-diff { font-size: 0.85rem; letter-spacing: 1px; }
+.learn-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: #6b7385;
+  font-weight: 600;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.learn-meta #learn-score { color: #1f8f5b; }
+.big-frac {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 700;
+  color: #5b2d8e;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+}
+.big-frac .fn { border-bottom: 3px solid currentColor; padding: 0 18px 4px; }
+.big-frac .fd { padding-top: 4px; }
+.pair-row {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.pair-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.pair-op { font-size: 1.8rem; color: #2a1b4a; font-weight: 700; }
 </style>
 </head>
 <body>
@@ -478,6 +843,7 @@ h1 {
     <button class="tab-nav-btn" id="tab-btn-calc" onclick="switchTab('calc')">➕ Brøkregning</button>
     <button class="tab-nav-btn" id="tab-btn-fig" onclick="switchTab('fig')">🥧 Aflæs Figur</button>
     <button class="tab-nav-btn" id="tab-btn-add" onclick="switchTab('add')">✏️ Decimalplus</button>
+    <button class="tab-nav-btn" id="tab-btn-learn" onclick="switchTab('learn')">📚 Lær</button>
   </div>
 
   <!-- ════════════════════════════════════════ -->
@@ -680,6 +1046,135 @@ h1 {
 
   </div><!-- /section-add -->
 
+  <!-- ════════════════════════════════════════ -->
+  <!--  SEKTION 5 – LÆR (forklaringer + tale)   -->
+  <!-- ════════════════════════════════════════ -->
+  <div id="section-learn" style="display:none">
+
+    <div class="learn-intro">
+      🔊 Tryk på <strong>Hør det!</strong>-knappen for at få forklaringen læst op.
+    </div>
+
+    <!-- Kort 1: Hvad er en brøk? -->
+    <div class="learn-card">
+      <h3>🍕 Hvad er en brøk?</h3>
+      <div class="learn-visual">
+        <svg width="140" height="140" viewBox="0 0 140 140" aria-label="Pizza delt i fire, hvor et stykke er farvet">
+          <circle cx="70" cy="70" r="62" fill="#fff5e1" stroke="#e8a857" stroke-width="3"/>
+          <path d="M70,70 L70,8 A62,62 0 0,1 132,70 Z" fill="#ff9a3c"/>
+          <line x1="70" y1="8" x2="70" y2="132" stroke="#e8a857" stroke-width="3"/>
+          <line x1="8" y1="70" x2="132" y2="70" stroke="#e8a857" stroke-width="3"/>
+        </svg>
+      </div>
+      <p>En brøk er en måde at vise en <strong>del af noget</strong>. Forestil dig en pizza, der er skåret i 4 lige store stykker. Hvis du spiser 1 stykke, så har du spist <strong>en fjerdedel</strong> af pizzaen. Det skriver vi som <strong>1/4</strong>.</p>
+      <div class="learn-example">💡 Eksempel: 2/4 betyder to ud af fire stykker — altså halvdelen!</div>
+      <button class="speak-btn" data-speak="En brøk er en måde at vise en del af noget. Forestil dig en pizza, der er skåret i fire lige store stykker. Hvis du spiser et stykke, så har du spist en fjerdedel af pizzaen. Det skriver vi som en fjerdedel. To fjerdedele betyder to ud af fire stykker, altså halvdelen!">🔊 Hør det!</button>
+    </div>
+
+    <!-- Kort 2: Tæller og nævner -->
+    <div class="learn-card">
+      <h3>🔢 Tæller og nævner</h3>
+      <div class="learn-visual">
+        <svg width="200" height="160" viewBox="0 0 200 160" aria-label="Brøken tre fjerdedele med labels">
+          <text x="100" y="55" text-anchor="middle" font-family="Georgia,serif" font-size="52" fill="#5b2d8e" font-weight="700">3</text>
+          <line x1="55" y1="72" x2="145" y2="72" stroke="#5b2d8e" stroke-width="5" stroke-linecap="round"/>
+          <text x="100" y="120" text-anchor="middle" font-family="Georgia,serif" font-size="52" fill="#5b2d8e" font-weight="700">4</text>
+          <text x="175" y="52" font-family="sans-serif" font-size="13" fill="#e91e8c" font-weight="700">tæller</text>
+          <line x1="150" y1="48" x2="130" y2="48" stroke="#e91e8c" stroke-width="2"/>
+          <text x="175" y="120" font-family="sans-serif" font-size="13" fill="#1abc9c" font-weight="700">nævner</text>
+          <line x1="150" y1="116" x2="130" y2="116" stroke="#1abc9c" stroke-width="2"/>
+        </svg>
+      </div>
+      <p>I en brøk er der et tal <strong>over</strong> stregen og et tal <strong>under</strong> stregen:</p>
+      <p>👉 Tallet <strong>under</strong> stregen kaldes <strong>nævneren</strong>. Den fortæller, hvor mange lige store dele tingen er delt i.<br>
+      👉 Tallet <strong>over</strong> stregen kaldes <strong>tælleren</strong>. Den fortæller, hvor mange dele du har.</p>
+      <div class="learn-example">💡 I brøken <strong>3/4</strong> er tælleren 3 og nævneren 4 — du har 3 ud af 4 dele.</div>
+      <button class="speak-btn" data-speak="I en brøk er der et tal over stregen og et tal under stregen. Tallet under stregen kaldes nævneren. Den fortæller, hvor mange lige store dele tingen er delt i. Tallet over stregen kaldes tælleren. Den fortæller, hvor mange dele du har. I brøken tre fjerdedele er tælleren tre, og nævneren fire. Du har tre ud af fire dele.">🔊 Hør det!</button>
+    </div>
+
+    <!-- Kort 3: Hvad er et decimaltal? -->
+    <div class="learn-card">
+      <h3>🔟 Hvad er et decimaltal?</h3>
+      <div class="learn-visual">
+        <svg width="260" height="80" viewBox="0 0 260 80" aria-label="Tallinje fra nul til en med en halv markeret">
+          <line x1="20" y1="45" x2="240" y2="45" stroke="#5b2d8e" stroke-width="3"/>
+          <line x1="20" y1="35" x2="20" y2="55" stroke="#5b2d8e" stroke-width="3"/>
+          <line x1="240" y1="35" x2="240" y2="55" stroke="#5b2d8e" stroke-width="3"/>
+          <line x1="130" y1="33" x2="130" y2="57" stroke="#e91e8c" stroke-width="4"/>
+          <circle cx="130" cy="45" r="7" fill="#e91e8c"/>
+          <text x="20" y="75" text-anchor="middle" font-size="14" fill="#5b2d8e" font-weight="700">0</text>
+          <text x="130" y="25" text-anchor="middle" font-size="15" fill="#e91e8c" font-weight="700">0,5</text>
+          <text x="240" y="75" text-anchor="middle" font-size="14" fill="#5b2d8e" font-weight="700">1</text>
+        </svg>
+      </div>
+      <p>Et <strong>decimaltal</strong> er også en måde at skrive en del af noget — men i stedet for en brøkstreg bruger vi et <strong>komma</strong>.</p>
+      <p>Tallet <strong>efter kommaet</strong> fortæller, hvor stor en del du har:</p>
+      <div class="learn-example">
+        • <strong>0,5</strong> = en halv (halvdelen af noget)<br>
+        • <strong>0,25</strong> = en fjerdedel<br>
+        • <strong>0,75</strong> = tre fjerdedele
+      </div>
+      <button class="speak-btn" data-speak="Et decimaltal er også en måde at skrive en del af noget. Men i stedet for en brøkstreg, bruger vi et komma. Tallet efter kommaet fortæller, hvor stor en del du har. Nul komma fem er det samme som en halv. Nul komma to fem er en fjerdedel. Og nul komma syv fem er tre fjerdedele.">🔊 Hør det!</button>
+    </div>
+
+    <!-- Kort 4: Brøk bliver til decimaltal -->
+    <div class="learn-card">
+      <h3>🔄 Fra brøk til decimaltal</h3>
+      <div class="learn-visual">
+        <svg width="240" height="90" viewBox="0 0 240 90" aria-label="En halv er lig nul komma fem">
+          <text x="30" y="40" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#5b2d8e" font-weight="700">1</text>
+          <line x1="12" y1="50" x2="48" y2="50" stroke="#5b2d8e" stroke-width="3"/>
+          <text x="30" y="78" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#5b2d8e" font-weight="700">2</text>
+          <text x="90" y="60" text-anchor="middle" font-size="30" fill="#e91e8c" font-weight="700">=</text>
+          <text x="160" y="62" text-anchor="middle" font-size="32" fill="#1abc9c" font-weight="700">0,5</text>
+          <text x="210" y="60" text-anchor="middle" font-size="28">🍫</text>
+        </svg>
+      </div>
+      <p>Du kan lave en brøk om til et decimaltal ved at <strong>dele tælleren med nævneren</strong>.</p>
+      <div class="learn-example">
+        <strong>1/2</strong> → 1 ÷ 2 = <strong>0,5</strong><br>
+        <strong>1/4</strong> → 1 ÷ 4 = <strong>0,25</strong><br>
+        <strong>3/4</strong> → 3 ÷ 4 = <strong>0,75</strong>
+      </div>
+      <p>💭 Tænk på det som at dele en chokoladeplade i lige store stykker — brøken og decimaltallet viser det samme, bare på to måder!</p>
+      <button class="speak-btn" data-speak="Du kan lave en brøk om til et decimaltal ved at dele tælleren med nævneren. For eksempel: en halv er det samme som 1 delt med 2, som giver nul komma fem. En fjerdedel er 1 delt med 4, som giver nul komma to fem. Og tre fjerdedele er 3 delt med 4, som giver nul komma syv fem. Tænk på det som at dele en chokoladeplade i lige store stykker. Brøken og decimaltallet viser det samme, bare på to måder!">🔊 Hør det!</button>
+    </div>
+
+    <p class="tts-note">💡 Hvis du ikke hører noget, så tjek at lyden er skruet op. Tale virker bedst i Safari eller Chrome.</p>
+
+    <!-- ────────────────────────────────── -->
+    <!--  INTERAKTIVE ØVELSER               -->
+    <!-- ────────────────────────────────── -->
+    <div class="exercises-header">
+      <h2>✍️ Prøv selv</h2>
+      <p>Interaktive opgaver der hjælper dig med at forstå brøker og decimaltal</p>
+    </div>
+
+    <!-- Quiz: 20 opgaver i stigende sværhedsgrad -->
+    <div class="exercise-card" id="learn-card">
+      <div class="learn-header">
+        <span class="exercise-title" id="learn-title">Opgave</span>
+        <span class="learn-diff" id="learn-diff"></span>
+      </div>
+      <div class="learn-meta">
+        <span id="learn-progress-text">Opgave 1 af 20</span>
+        <span id="learn-score">0 rigtige</span>
+      </div>
+      <div class="progress-container"><div class="progress-bar" id="learn-progress-bar"></div></div>
+      <div class="exercise-prompt" id="learn-prompt"></div>
+      <div class="exercise-visual" id="learn-visual"></div>
+      <div class="exercise-options" id="learn-options"></div>
+      <div class="exercise-feedback" id="learn-feedback"></div>
+      <div class="exercise-actions">
+        <button class="ex-btn ex-check" id="learn-check" style="display:none">Tjek svar</button>
+        <button class="ex-btn ex-check" id="learn-next" style="display:none" onclick="learnNext()">Næste opgave →</button>
+      </div>
+    </div>
+
+    <div class="summary-card" id="learn-summary" style="display:none; margin-top:16px"></div>
+
+  </div><!-- /section-learn -->
+
 </div><!-- /container -->
 
 <script>
@@ -687,16 +1182,643 @@ h1 {
 // TAB SWITCHING
 // =============================================
 function switchTab(tab) {
-  document.getElementById('section-dec').style.display  = tab === 'dec'  ? '' : 'none';
-  document.getElementById('section-calc').style.display = tab === 'calc' ? '' : 'none';
-  document.getElementById('section-fig').style.display  = tab === 'fig'  ? '' : 'none';
-  document.getElementById('section-add').style.display  = tab === 'add'  ? '' : 'none';
-  document.getElementById('tab-btn-dec').classList.toggle('active',  tab === 'dec');
-  document.getElementById('tab-btn-calc').classList.toggle('active', tab === 'calc');
-  document.getElementById('tab-btn-fig').classList.toggle('active',  tab === 'fig');
-  document.getElementById('tab-btn-add').classList.toggle('active',  tab === 'add');
+  document.getElementById('section-dec').style.display   = tab === 'dec'   ? '' : 'none';
+  document.getElementById('section-calc').style.display  = tab === 'calc'  ? '' : 'none';
+  document.getElementById('section-fig').style.display   = tab === 'fig'   ? '' : 'none';
+  document.getElementById('section-add').style.display   = tab === 'add'   ? '' : 'none';
+  document.getElementById('section-learn').style.display = tab === 'learn' ? '' : 'none';
+  document.getElementById('tab-btn-dec').classList.toggle('active',   tab === 'dec');
+  document.getElementById('tab-btn-calc').classList.toggle('active',  tab === 'calc');
+  document.getElementById('tab-btn-fig').classList.toggle('active',   tab === 'fig');
+  document.getElementById('tab-btn-add').classList.toggle('active',   tab === 'add');
+  document.getElementById('tab-btn-learn').classList.toggle('active', tab === 'learn');
   if (tab === 'add') { D_setupCanvas(); if (!D.started) { D.started=true; D_showQuestion(); } }
+  if (tab !== 'learn') { stopSpeech(); }
 }
+
+// =============================================
+// LÆR-SEKTION: Dansk text-to-speech
+// =============================================
+let currentSpeakBtn = null;
+function stopSpeech() {
+  if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  if (currentSpeakBtn) { currentSpeakBtn.classList.remove('speaking'); currentSpeakBtn.textContent = '🔊 Hør det!'; currentSpeakBtn = null; }
+}
+function pickDanishVoice() {
+  if (!('speechSynthesis' in window)) return null;
+  const voices = window.speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().startsWith('da'));
+  if (!voices.length) return null;
+  const score = v => {
+    const n = (v.name || '').toLowerCase();
+    let s = 0;
+    if (n.includes('premium')) s += 100;
+    if (n.includes('enhanced')) s += 80;
+    if (n.includes('neural')) s += 90;
+    if (n.includes('natural')) s += 70;
+    if (n.includes('online')) s += 50;
+    if (n.includes('sara'))   s += 5;
+    if (n.includes('magnus')) s += 5;
+    if (v.lang === 'da-DK')   s += 10;
+    return s;
+  };
+  voices.sort((a,b) => score(b) - score(a));
+  return voices[0];
+}
+function speakDanish(text, btn) {
+  if (!('speechSynthesis' in window)) {
+    alert('Din browser understøtter desværre ikke oplæsning. Prøv Safari eller Chrome.');
+    return;
+  }
+  // Hvis samme knap trykkes igen → stop
+  if (currentSpeakBtn === btn) { stopSpeech(); return; }
+  stopSpeech();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = 'da-DK';
+  utter.rate = 0.95;
+  utter.pitch = 1.05;
+  const v = pickDanishVoice();
+  if (v) utter.voice = v;
+  utter.onend = () => { btn.classList.remove('speaking'); btn.textContent = '🔊 Hør det!'; if (currentSpeakBtn === btn) currentSpeakBtn = null; };
+  utter.onerror = utter.onend;
+  btn.classList.add('speaking');
+  btn.textContent = '⏹️ Stop';
+  currentSpeakBtn = btn;
+  window.speechSynthesis.speak(utter);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.speak-btn[data-speak]').forEach(btn => {
+    btn.addEventListener('click', () => speakDanish(btn.getAttribute('data-speak'), btn));
+  });
+  // Tving voices til at indlæse i Chrome/Safari
+  if ('speechSynthesis' in window && typeof window.speechSynthesis.getVoices === 'function') {
+    window.speechSynthesis.getVoices();
+    window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+  }
+  // Start quiz
+  learnStart();
+});
+
+// =============================================
+// INTERAKTIVE ØVELSER (Lær-tab) — 20 opgaver
+// =============================================
+
+// ---- Hjælpere ----
+function pieSvg(total, filled, fillColor, size) {
+  size = size || 130;
+  const r = size / 2 - 4;
+  const cx = size / 2, cy = size / 2;
+  let paths = '';
+  if (total === 1) {
+    paths = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${filled ? fillColor : '#ffffff'}" stroke="#2a1b4a" stroke-width="2"/>`;
+  } else {
+    for (let i = 0; i < total; i++) {
+      const startA = (i / total) * 2 * Math.PI - Math.PI / 2;
+      const endA = ((i + 1) / total) * 2 * Math.PI - Math.PI / 2;
+      const x1 = cx + r * Math.cos(startA);
+      const y1 = cy + r * Math.sin(startA);
+      const x2 = cx + r * Math.cos(endA);
+      const y2 = cy + r * Math.sin(endA);
+      const largeArc = (endA - startA) > Math.PI ? 1 : 0;
+      const d = `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc} 1 ${x2},${y2} Z`;
+      const fill = i < filled ? fillColor : '#ffffff';
+      paths += `<path d="${d}" fill="${fill}" stroke="#2a1b4a" stroke-width="2"/>`;
+    }
+  }
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-label="Brøk som lagkage">${paths}</svg>`;
+}
+
+function miniBarHtml(total, coloredArr, color) {
+  let cells = '';
+  for (let i = 0; i < total; i++) {
+    const on = coloredArr[i];
+    cells += `<div style="flex:1;height:40px;min-width:12px;background:${on ? color : '#ffffff'};border:1.5px solid ${on ? color : '#c9cfdb'};border-radius:3px"></div>`;
+  }
+  return `<div style="display:flex;gap:3px;width:180px">${cells}</div>`;
+}
+
+function firstNArr(n, total) {
+  const arr = new Array(total).fill(false);
+  for (let i = 0; i < n; i++) arr[i] = true;
+  return arr;
+}
+
+function fractionAsDecimalStr(n, d) {
+  const v = n / d;
+  // Format with comma, trim unneeded zeros; allow up to 3 decimals
+  let s = v.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+  return s.replace('.', ',');
+}
+
+// =============================================
+// Quiz engine – 20 opgaver i stigende sværhedsgrad
+// =============================================
+const EXERCISES = [
+  // LEVEL 1 ⭐ (opgave 1-5)
+  { diff:1, type:'color_bar', total:2, target:1 },
+  { diff:1, type:'identify',  total:2, filled:1, opts:['1/2','1/3','1/4','2/3'] },
+  { diff:1, type:'color_bar', total:4, target:1 },
+  { diff:1, type:'frac_to_dec', n:1, d:2, opts:['0,5','0,25','0,75','1'] },
+  { diff:1, type:'identify',  total:4, filled:3, opts:['3/4','1/4','2/4','4/3'] },
+  // LEVEL 2 ⭐⭐ (opgave 6-10)
+  { diff:2, type:'color_bar', total:5, target:2 },
+  { diff:2, type:'frac_to_dec', n:1, d:4, opts:['0,25','0,5','0,14','0,4'] },
+  { diff:2, type:'compare_frac', a:{n:1,d:2}, b:{n:1,d:4} },
+  { diff:2, type:'color_bar', total:8, target:3 },
+  { diff:2, type:'frac_to_dec', n:3, d:4, opts:['0,75','0,34','0,43','0,7'] },
+  // LEVEL 3 ⭐⭐⭐ (opgave 11-15)
+  { diff:3, type:'dec_to_frac', dec:'0,5', n:1, d:2, opts:['1/2','1/3','2/3','1/5'] },
+  { diff:3, type:'equivalent', n:1, d:2, correctN:2, correctD:4, opts:['2/4','1/3','3/4','2/3'] },
+  { diff:3, type:'color_bar', total:8, target:5 },
+  { diff:3, type:'dec_to_frac', dec:'0,75', n:3, d:4, opts:['3/4','1/3','3/8','7/8'] },
+  { diff:3, type:'frac_to_dec', n:2, d:10, opts:['0,2','0,25','0,02','2'] },
+  // LEVEL 4 ⭐⭐⭐⭐ (opgave 16-20)
+  { diff:4, type:'compare_mixed', dec:'0,3', n:1, d:4 },
+  { diff:4, type:'add_frac', a:{n:1,d:4}, b:{n:1,d:4}, sum:{n:2,d:4}, opts:['2/4','2/8','1/8','1/4'] },
+  { diff:4, type:'add_frac', a:{n:1,d:2}, b:{n:1,d:4}, sum:{n:3,d:4}, opts:['3/4','2/6','1/8','3/8'] },
+  { diff:4, type:'compare_frac', a:{n:3,d:4}, b:{n:5,d:8} },
+  { diff:4, type:'color_bar', total:12, target:7 }
+];
+
+const TYPE_TITLES = {
+  color_bar:     'Farv figuren',
+  identify:      'Hvilken brøk viser figuren?',
+  frac_to_dec:   'Fra brøk til decimaltal',
+  dec_to_frac:   'Fra decimaltal til brøk',
+  equivalent:    'Find den ens brøk',
+  compare_frac:  'Sammenlign brøker',
+  compare_mixed: 'Sammenlign brøk og decimaltal',
+  add_frac:      'Læg brøker sammen'
+};
+
+let lState = { idx: 0, correct: 0, locked: false };
+
+function bigFrac(n, d) {
+  return `<div class="big-frac" style="font-size:2.4rem"><span class="fn">${n}</span><span class="fd">${d}</span></div>`;
+}
+
+function numlineHtml(pct, label, color, markerId) {
+  color = color || '#5b2d8e';
+  return `
+    <div class="numline">
+      <div class="numline-label" id="${markerId}-lbl" style="left:${pct}%;color:${color}">${label}</div>
+      <div class="numline-track">
+        <div class="numline-marker" id="${markerId}" style="left:${pct}%"></div>
+      </div>
+      <div class="numline-ticks"><span>0</span><span>0,5</span><span>1</span></div>
+    </div>
+  `;
+}
+
+function setNumlineMarker(id, pct, label, state) {
+  const m = document.getElementById(id);
+  const l = document.getElementById(id+'-lbl');
+  if (!m || !l) return;
+  m.classList.remove('wrong','correct');
+  if (state === 'correct') m.classList.add('correct');
+  else if (state === 'wrong') m.classList.add('wrong');
+  m.style.left = pct + '%';
+  l.style.left = pct + '%';
+  l.style.color = state === 'wrong' ? '#c23a3a' : (state === 'correct' ? '#1f8f5b' : '#2a1b4a');
+  l.textContent = (state === 'wrong' ? '✗ ' : (state === 'correct' ? '✓ ' : '')) + label;
+}
+
+function decimalBarSvg(val, color) {
+  const w = 140, h = 22;
+  const fillW = Math.max(0, Math.min(1, val)) * (w - 2);
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}">
+    <rect x="1" y="1" width="${w-2}" height="${h-2}" fill="#ffffff" stroke="#2a1b4a" stroke-width="2" rx="4"/>
+    <rect x="1" y="1" width="${fillW}" height="${h-2}" fill="${color}" rx="4"/>
+  </svg>`;
+}
+
+// ---- Main quiz controller ----
+function learnStart() {
+  lState = { idx: 0, correct: 0, locked: false };
+  document.getElementById('learn-summary').style.display = 'none';
+  document.getElementById('learn-card').style.display = '';
+  learnRender();
+}
+
+function learnRender() {
+  const ex = EXERCISES[lState.idx];
+  lState.locked = false;
+  lState.barLocked = false;
+  lState.userColored = null;
+
+  document.getElementById('learn-title').textContent = TYPE_TITLES[ex.type] || 'Opgave';
+  document.getElementById('learn-progress-text').textContent = `Opgave ${lState.idx+1} af ${EXERCISES.length}`;
+  document.getElementById('learn-progress-bar').style.width = (lState.idx / EXERCISES.length * 100) + '%';
+  document.getElementById('learn-score').textContent = `${lState.correct} rigtige`;
+  const filled = '★'.repeat(ex.diff);
+  const empty  = '<span style="opacity:0.2">★</span>'.repeat(4 - ex.diff);
+  document.getElementById('learn-diff').innerHTML = `<span style="color:#e8a857">${filled}</span>${empty}`;
+
+  document.getElementById('learn-feedback').className = 'exercise-feedback';
+  document.getElementById('learn-feedback').innerHTML = '';
+  document.getElementById('learn-options').innerHTML = '';
+  document.getElementById('learn-options').style.display = '';
+  document.getElementById('learn-next').style.display = 'none';
+  document.getElementById('learn-check').style.display = 'none';
+  document.getElementById('learn-visual').innerHTML = '';
+  document.getElementById('learn-prompt').innerHTML = '';
+
+  const renderer = RENDERERS[ex.type];
+  if (renderer) renderer(ex);
+}
+
+function learnNext() {
+  if (lState.idx < EXERCISES.length - 1) {
+    lState.idx++;
+    learnRender();
+    const card = document.getElementById('learn-card');
+    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } else {
+    showLearnSummary();
+  }
+}
+
+function showLearnSummary() {
+  document.getElementById('learn-card').style.display = 'none';
+  const summary = document.getElementById('learn-summary');
+  summary.style.display = 'block';
+  const pct = lState.correct / EXERCISES.length;
+  let emoji, msg;
+  if (pct >= 0.9)      { emoji = '🏆'; msg = 'Fantastisk! Du er en rigtig matematikmester!'; }
+  else if (pct >= 0.7) { emoji = '🌟'; msg = 'Rigtig flot klaret!'; }
+  else if (pct >= 0.5) { emoji = '👍'; msg = 'Godt gået — prøv igen og bliv endnu bedre.'; }
+  else                 { emoji = '💪'; msg = 'Øvelse gør mester — prøv igen!'; }
+  summary.innerHTML = `
+    <h2>Færdig!</h2>
+    <div class="summary-emoji">${emoji}</div>
+    <div class="summary-score">Du fik <strong>${lState.correct}</strong> ud af ${EXERCISES.length} rigtige</div>
+    <p class="summary-msg">${msg}</p>
+    <button class="restart-btn" onclick="learnStart()">Start forfra 🔄</button>
+  `;
+  if (pct >= 0.9) confetti();
+  summary.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+// ---- Delt MC-logik ----
+function mcOptions(opts, correctOpt, onPick) {
+  const optEl = document.getElementById('learn-options');
+  optEl.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'ex-option';
+    btn.dataset.opt = opt;
+    btn.textContent = opt;
+    btn.onclick = () => onPick(btn, opt);
+    optEl.appendChild(btn);
+  });
+}
+
+function handleMcPick(btn, opt, correctOpt, fbRenderFn) {
+  if (lState.locked) return;
+  lState.locked = true;
+  const isCorrect = opt === correctOpt;
+  if (isCorrect) lState.correct++;
+  document.querySelectorAll('#learn-options .ex-option').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.opt === correctOpt) b.classList.add('correct');
+    else if (b === btn && !isCorrect) b.classList.add('wrong');
+  });
+  fbRenderFn(isCorrect, opt);
+  document.getElementById('learn-score').textContent = `${lState.correct} rigtige`;
+  const nextBtn = document.getElementById('learn-next');
+  nextBtn.style.display = '';
+  nextBtn.textContent = (lState.idx === EXERCISES.length-1) ? 'Se resultat →' : 'Næste opgave →';
+}
+
+function setFeedback(isCorrect, html) {
+  const fb = document.getElementById('learn-feedback');
+  fb.className = 'exercise-feedback show ' + (isCorrect ? 'correct' : 'wrong');
+  const head = isCorrect ? '✅ Rigtigt!' : '❌ Ikke helt!';
+  fb.innerHTML = `<div class="fb-title">${head}</div>${html}`;
+}
+
+// ---- Type: color_bar ----
+function renderColorBar(ex) {
+  document.getElementById('learn-prompt').innerHTML = `Farv <strong>${ex.target}/${ex.total}</strong> af figuren`;
+  document.getElementById('learn-options').style.display = 'none';
+  lState.userColored = new Array(ex.total).fill(false);
+  renderLearnBar();
+  const checkBtn = document.getElementById('learn-check');
+  checkBtn.style.display = '';
+  checkBtn.textContent = 'Tjek svar';
+  checkBtn.onclick = () => colorBarCheck(ex);
+}
+
+function renderLearnBar() {
+  const bar = document.getElementById('learn-visual');
+  bar.innerHTML = '';
+  const wrapper = document.createElement('div');
+  wrapper.className = 'ex-bar' + (lState.barLocked ? ' locked' : '');
+  for (let i = 0; i < lState.userColored.length; i++) {
+    const cell = document.createElement('div');
+    cell.className = 'ex-bar-cell' + (lState.userColored[i] ? ' colored' : '');
+    if (!lState.barLocked) {
+      cell.onclick = () => {
+        lState.userColored[i] = !lState.userColored[i];
+        renderLearnBar();
+      };
+    }
+    wrapper.appendChild(cell);
+  }
+  bar.appendChild(wrapper);
+}
+
+function colorBarCheck(ex) {
+  if (lState.barLocked) return;
+  const count = lState.userColored.filter(c => c).length;
+  const isCorrect = count === ex.target;
+  lState.barLocked = true;
+  renderLearnBar();
+  if (isCorrect) lState.correct++;
+  if (isCorrect) {
+    const dec = fractionAsDecimalStr(ex.target, ex.total);
+    setFeedback(true, `
+      <div>Du farvede <strong>${ex.target} ud af ${ex.total}</strong> dele — det er brøken <strong>${ex.target}/${ex.total}</strong>.</div>
+      <div class="fb-explanation">💡 Det svarer til decimaltallet <strong>${dec}</strong>.</div>
+    `);
+  } else {
+    const diff = count - ex.target;
+    const diffMsg = diff < 0 ? `Du skulle have farvet <strong>${-diff} mere</strong>.` : `Du farvede <strong>${diff} for meget</strong>.`;
+    setFeedback(false, `
+      <div>Du farvede <strong>${count}</strong> dele — du skulle farve <strong>${ex.target}</strong>.</div>
+      <div class="fb-compare">
+        <div class="fb-row">
+          <div class="fb-label">Dit svar</div>
+          ${miniBarHtml(ex.total, lState.userColored, '#c23a3a')}
+          <div style="font-weight:700;color:#c23a3a">${count}/${ex.total}</div>
+        </div>
+        <div class="fb-row">
+          <div class="fb-label">Korrekt</div>
+          ${miniBarHtml(ex.total, firstNArr(ex.target, ex.total), '#1f8f5b')}
+          <div style="font-weight:700;color:#1f8f5b">${ex.target}/${ex.total}</div>
+        </div>
+      </div>
+      <div class="fb-explanation">💡 ${diffMsg}</div>
+    `);
+  }
+  document.getElementById('learn-check').style.display = 'none';
+  document.getElementById('learn-score').textContent = `${lState.correct} rigtige`;
+  const nextBtn = document.getElementById('learn-next');
+  nextBtn.style.display = '';
+  nextBtn.textContent = (lState.idx === EXERCISES.length-1) ? 'Se resultat →' : 'Næste opgave →';
+}
+
+// ---- Type: identify ----
+function renderIdentify(ex) {
+  const correct = `${ex.filled}/${ex.total}`;
+  document.getElementById('learn-prompt').textContent = 'Hvilken brøk viser figuren?';
+  document.getElementById('learn-visual').innerHTML = pieSvg(ex.total, ex.filled, '#5b2d8e', 140);
+  mcOptions(shuffle([...ex.opts]), correct, (btn, opt) => {
+    handleMcPick(btn, opt, correct, (isCorrect) => {
+      if (isCorrect) {
+        setFeedback(true, `
+          <div>Figuren har <strong>${ex.filled}</strong> farvede dele ud af <strong>${ex.total}</strong> — det er brøken <strong>${correct}</strong>.</div>
+          <div class="fb-explanation">💡 Tælleren er antal farvede dele, nævneren er antallet af dele i alt.</div>
+        `);
+      } else {
+        const [uN, uD] = opt.split('/').map(Number);
+        setFeedback(false, `
+          <div>Du valgte <strong>${opt}</strong>, men figuren viser <strong>${correct}</strong>.</div>
+          <div class="fb-compare">
+            <div class="fb-row"><div class="fb-label">Figuren</div>${pieSvg(ex.total, ex.filled, '#1f8f5b', 90)}<div style="font-weight:700;color:#1f8f5b">${correct}</div></div>
+            <div class="fb-row"><div class="fb-label">Dit svar</div>${pieSvg(uD, uN, '#c23a3a', 90)}<div style="font-weight:700;color:#c23a3a">${opt}</div></div>
+          </div>
+          <div class="fb-explanation">💡 Tæl først hvor mange dele figuren er delt i (nævneren), tæl så de farvede (tælleren).</div>
+        `);
+      }
+    });
+  });
+}
+
+// ---- Type: frac_to_dec ----
+function renderFracToDec(ex) {
+  document.getElementById('learn-prompt').textContent = 'Hvad er denne brøk som decimaltal?';
+  document.getElementById('learn-visual').innerHTML = `
+    <div class="pair-row">
+      ${bigFrac(ex.n, ex.d)}
+      ${pieSvg(ex.d, ex.n, '#5b2d8e', 110)}
+    </div>
+  `;
+  const correct = fractionAsDecimalStr(ex.n, ex.d);
+  mcOptions(shuffle([...ex.opts]), correct, (btn, opt) => {
+    handleMcPick(btn, opt, correct, (isCorrect) => {
+      const correctPct = (ex.n / ex.d) * 100;
+      const userPct = Math.max(0, Math.min(100, parseFloat(opt.replace(',','.')) * 100));
+      const mid = 'ftd-' + lState.idx;
+      if (isCorrect) {
+        setFeedback(true, `
+          <div><strong>${ex.n}/${ex.d}</strong> = ${ex.n} ÷ ${ex.d} = <strong>${correct}</strong></div>
+          ${numlineHtml(0, '0', '#5b2d8e', mid)}
+        `);
+        requestAnimationFrame(() => setTimeout(() => setNumlineMarker(mid, correctPct, correct, 'correct'), 80));
+      } else {
+        setFeedback(false, `
+          <div><strong>${ex.n}/${ex.d}</strong> = ${ex.n} ÷ ${ex.d} = <strong>${correct}</strong> (ikke ${opt})</div>
+          ${numlineHtml(0, '0', '#5b2d8e', mid)}
+          <div class="fb-explanation">💡 En brøk betyder tæller ÷ nævner.</div>
+        `);
+        requestAnimationFrame(() => {
+          setTimeout(() => setNumlineMarker(mid, userPct, opt, 'wrong'), 300);
+          setTimeout(() => setNumlineMarker(mid, correctPct, correct, 'correct'), 1700);
+        });
+      }
+    });
+  });
+}
+
+// ---- Type: dec_to_frac ----
+function renderDecToFrac(ex) {
+  const pct = parseFloat(ex.dec.replace(',','.')) * 100;
+  const mid = 'dtf-' + lState.idx;
+  document.getElementById('learn-prompt').textContent = 'Hvilken brøk svarer til decimaltallet?';
+  document.getElementById('learn-visual').innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;gap:14px;width:100%">
+      <div style="font-family:Georgia,serif;font-size:2.6rem;font-weight:700;color:#5b2d8e">${ex.dec}</div>
+      ${numlineHtml(pct, ex.dec, '#5b2d8e', mid)}
+    </div>
+  `;
+  const correct = `${ex.n}/${ex.d}`;
+  mcOptions(shuffle([...ex.opts]), correct, (btn, opt) => {
+    handleMcPick(btn, opt, correct, (isCorrect) => {
+      if (isCorrect) {
+        setFeedback(true, `
+          <div><strong>${ex.dec}</strong> er det samme som <strong>${correct}</strong>.</div>
+          <div class="fb-compare">
+            <div class="fb-row"><div class="fb-label">${correct}</div>${pieSvg(ex.d, ex.n, '#1f8f5b', 100)}</div>
+          </div>
+          <div class="fb-explanation">💡 ${ex.n} ÷ ${ex.d} = ${ex.dec}</div>
+        `);
+      } else {
+        const [uN, uD] = opt.split('/').map(Number);
+        setFeedback(false, `
+          <div>Du valgte <strong>${opt}</strong>, men ${ex.dec} = <strong>${correct}</strong>.</div>
+          <div class="fb-compare">
+            <div class="fb-row"><div class="fb-label">Korrekt: ${correct}</div>${pieSvg(ex.d, ex.n, '#1f8f5b', 90)}</div>
+            <div class="fb-row"><div class="fb-label">Dit svar: ${opt}</div>${pieSvg(uD, uN, '#c23a3a', 90)}</div>
+          </div>
+          <div class="fb-explanation">💡 ${ex.n} ÷ ${ex.d} = ${ex.dec}</div>
+        `);
+      }
+    });
+  });
+}
+
+// ---- Type: equivalent ----
+function renderEquivalent(ex) {
+  document.getElementById('learn-prompt').innerHTML = `Hvilken brøk betyder det samme som <strong>${ex.n}/${ex.d}</strong>?`;
+  document.getElementById('learn-visual').innerHTML = `
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+      <div style="font-size:0.78rem;color:#6b7385;font-weight:700;text-transform:uppercase;letter-spacing:0.08em">${ex.n}/${ex.d}</div>
+      ${pieSvg(ex.d, ex.n, '#5b2d8e', 120)}
+    </div>
+  `;
+  const correct = `${ex.correctN}/${ex.correctD}`;
+  mcOptions(shuffle([...ex.opts]), correct, (btn, opt) => {
+    handleMcPick(btn, opt, correct, (isCorrect) => {
+      const mult = ex.correctD / ex.d;
+      if (isCorrect) {
+        setFeedback(true, `
+          <div><strong>${ex.n}/${ex.d}</strong> og <strong>${correct}</strong> er lige store!</div>
+          <div class="fb-compare">
+            <div class="pair-col"><div class="fb-label">${ex.n}/${ex.d}</div>${pieSvg(ex.d, ex.n, '#5b2d8e', 90)}</div>
+            <div class="pair-op" style="margin-top:22px">=</div>
+            <div class="pair-col"><div class="fb-label">${correct}</div>${pieSvg(ex.correctD, ex.correctN, '#1f8f5b', 90)}</div>
+          </div>
+          <div class="fb-explanation">💡 Gang både tæller og nævner med ${mult}: ${ex.n}×${mult}=${ex.correctN}, ${ex.d}×${mult}=${ex.correctD}.</div>
+        `);
+      } else {
+        const [uN, uD] = opt.split('/').map(Number);
+        setFeedback(false, `
+          <div>Den rigtige er <strong>${correct}</strong> (ikke ${opt}).</div>
+          <div class="fb-compare">
+            <div class="pair-col"><div class="fb-label">${ex.n}/${ex.d}</div>${pieSvg(ex.d, ex.n, '#5b2d8e', 80)}</div>
+            <div class="pair-col"><div class="fb-label">Korrekt: ${correct}</div>${pieSvg(ex.correctD, ex.correctN, '#1f8f5b', 80)}</div>
+            <div class="pair-col"><div class="fb-label">Dit svar: ${opt}</div>${pieSvg(uD, uN, '#c23a3a', 80)}</div>
+          </div>
+          <div class="fb-explanation">💡 Gang tæller og nævner med samme tal — så er brøken lige stor.</div>
+        `);
+      }
+    });
+  });
+}
+
+// ---- Type: compare_frac ----
+function renderCompareFrac(ex) {
+  const a = ex.a, b = ex.b;
+  const aStr = `${a.n}/${a.d}`, bStr = `${b.n}/${b.d}`;
+  const aVal = a.n / a.d, bVal = b.n / b.d;
+  const correct = Math.abs(aVal - bVal) < 1e-9 ? 'Lige store' : (aVal > bVal ? aStr : bStr);
+  document.getElementById('learn-prompt').textContent = 'Hvilken brøk er størst?';
+  document.getElementById('learn-visual').innerHTML = `
+    <div class="pair-row">
+      <div class="pair-col"><div style="font-weight:700;color:#5b2d8e">${aStr}</div>${pieSvg(a.d, a.n, '#5b2d8e', 110)}</div>
+      <div class="pair-op">vs</div>
+      <div class="pair-col"><div style="font-weight:700;color:#a18cd1">${bStr}</div>${pieSvg(b.d, b.n, '#a18cd1', 110)}</div>
+    </div>
+  `;
+  mcOptions([aStr, bStr, 'Lige store'], correct, (btn, opt) => {
+    handleMcPick(btn, opt, correct, (isCorrect) => {
+      const aDec = fractionAsDecimalStr(a.n, a.d);
+      const bDec = fractionAsDecimalStr(b.n, b.d);
+      setFeedback(isCorrect, `
+        <div class="fb-compare">
+          <div class="pair-col"><div class="fb-label">${aStr}</div>${pieSvg(a.d, a.n, '#5b2d8e', 90)}<div style="font-weight:700;color:#5b2d8e">= ${aDec}</div></div>
+          <div class="pair-col"><div class="fb-label">${bStr}</div>${pieSvg(b.d, b.n, '#a18cd1', 90)}<div style="font-weight:700;color:#a18cd1">= ${bDec}</div></div>
+        </div>
+        <div>Det største er <strong>${correct}</strong>.</div>
+        <div class="fb-explanation">💡 Lav brøkerne om til decimaltal, så er de lette at sammenligne.</div>
+      `);
+    });
+  });
+}
+
+// ---- Type: compare_mixed ----
+function renderCompareMixed(ex) {
+  const fracStr = `${ex.n}/${ex.d}`;
+  const decVal = parseFloat(ex.dec.replace(',','.'));
+  const fracVal = ex.n / ex.d;
+  const correct = Math.abs(decVal - fracVal) < 1e-9 ? 'Lige store' : (decVal > fracVal ? ex.dec : fracStr);
+  document.getElementById('learn-prompt').textContent = 'Hvad er størst?';
+  document.getElementById('learn-visual').innerHTML = `
+    <div class="pair-row">
+      <div class="pair-col">
+        <div style="font-weight:700;color:#5b2d8e;font-size:1.2rem">${ex.dec}</div>
+        ${decimalBarSvg(decVal, '#5b2d8e')}
+      </div>
+      <div class="pair-op">vs</div>
+      <div class="pair-col">
+        <div style="font-weight:700;color:#a18cd1">${fracStr}</div>
+        ${pieSvg(ex.d, ex.n, '#a18cd1', 100)}
+      </div>
+    </div>
+  `;
+  mcOptions([ex.dec, fracStr, 'Lige store'], correct, (btn, opt) => {
+    handleMcPick(btn, opt, correct, (isCorrect) => {
+      const fracDec = fractionAsDecimalStr(ex.n, ex.d);
+      setFeedback(isCorrect, `
+        <div>${fracStr} = ${fracDec}. Så vi sammenligner <strong>${ex.dec}</strong> og <strong>${fracDec}</strong>.</div>
+        <div style="margin-top:6px">Det største er <strong>${correct}</strong>.</div>
+        <div class="fb-explanation">💡 Lav brøken om til et decimaltal, så kan du direkte sammenligne.</div>
+      `);
+    });
+  });
+}
+
+// ---- Type: add_frac ----
+function renderAddFrac(ex) {
+  const a = ex.a, b = ex.b, sum = ex.sum;
+  const aStr = `${a.n}/${a.d}`, bStr = `${b.n}/${b.d}`, sumStr = `${sum.n}/${sum.d}`;
+  document.getElementById('learn-prompt').innerHTML = `Hvad er <strong>${aStr} + ${bStr}</strong>?`;
+  document.getElementById('learn-visual').innerHTML = `
+    <div class="pair-row">
+      <div class="pair-col"><div style="font-weight:700;color:#5b2d8e">${aStr}</div>${pieSvg(a.d, a.n, '#5b2d8e', 90)}</div>
+      <div class="pair-op">+</div>
+      <div class="pair-col"><div style="font-weight:700;color:#5b2d8e">${bStr}</div>${pieSvg(b.d, b.n, '#5b2d8e', 90)}</div>
+      <div class="pair-op">=</div>
+      <div class="pair-col"><div style="font-weight:700;color:#6b7385">?</div>${pieSvg(sum.d, 0, '#a18cd1', 90)}</div>
+    </div>
+  `;
+  mcOptions(shuffle([...ex.opts]), sumStr, (btn, opt) => {
+    handleMcPick(btn, opt, sumStr, (isCorrect) => {
+      const sameDen = a.d === b.d;
+      let explanation;
+      if (sameDen) {
+        explanation = `Når nævnerne er ens (${a.d}), lægger man bare tællerne sammen: ${a.n} + ${b.n} = ${sum.n}. Svaret er <strong>${sumStr}</strong>.`;
+      } else {
+        const aNew = a.n * (sum.d / a.d);
+        const bNew = b.n * (sum.d / b.d);
+        explanation = `Nævnerne er forskellige. Omskriv til samme nævner: ${aStr} = ${aNew}/${sum.d} og ${bStr} = ${bNew}/${sum.d}. Læg sammen: ${aNew} + ${bNew} = ${aNew+bNew}. Svaret er <strong>${sumStr}</strong>.`;
+      }
+      setFeedback(isCorrect, `
+        <div>Det rigtige svar er <strong>${sumStr}</strong>${isCorrect ? '' : ` (ikke ${opt})`}.</div>
+        <div class="fb-compare">
+          <div class="pair-col"><div class="fb-label">${aStr}</div>${pieSvg(a.d, a.n, '#5b2d8e', 75)}</div>
+          <div class="pair-op" style="margin-top:22px">+</div>
+          <div class="pair-col"><div class="fb-label">${bStr}</div>${pieSvg(b.d, b.n, '#5b2d8e', 75)}</div>
+          <div class="pair-op" style="margin-top:22px">=</div>
+          <div class="pair-col"><div class="fb-label">${sumStr}</div>${pieSvg(sum.d, sum.n, '#1f8f5b', 75)}</div>
+        </div>
+        <div class="fb-explanation">💡 ${explanation}</div>
+      `);
+    });
+  });
+}
+
+// ---- Dispatcher ----
+const RENDERERS = {
+  color_bar:     renderColorBar,
+  identify:      renderIdentify,
+  frac_to_dec:   renderFracToDec,
+  dec_to_frac:   renderDecToFrac,
+  equivalent:    renderEquivalent,
+  compare_frac:  renderCompareFrac,
+  compare_mixed: renderCompareMixed,
+  add_frac:      renderAddFrac
+};
 
 // =============================================
 // SHARED UTILITIES
